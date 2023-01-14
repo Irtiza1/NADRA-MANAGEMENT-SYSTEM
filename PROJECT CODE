@@ -1,0 +1,4431 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<ctype.h>
+#define BWHT "\e[1;37m"
+#define BHWHT "\e[1;97m"
+#define UWHT "\e[4;37m"
+#define GRNHB "\e[0;102m"
+#define GRNB "\e[42m"
+
+
+
+
+int form_nic();
+int form_snic();
+int form_birth();
+int form_bform();
+int form_nicop();
+int form_marriage();
+int form_divorce();
+int form_juvenile();
+int form_vaccine();
+int form_complaints();
+int form_death();
+void nic();
+void snic();
+void birth();
+void bform();
+void Identity(char province[],char grandfathername[],char fathername[],char mothername[],char name[],char religion[],char gender[]);
+void nicop();
+void marriage();
+void divorce();
+void juvenile();
+void vaccine();
+void death();
+void search();
+void search_specific_id();
+void search_specific_comp();
+void frc();
+void namecheck();
+void fnamecheck();
+void gendercheck();
+void religioncheck();
+void nationcheck();
+void bmarkcheck();
+void crmscheck();
+void naturedeathcheck();
+void appnamecheck();
+void relationcheck();
+void citycheck();
+void tehsilcheck();
+void districtcheck();
+void deathplacecheck();
+void graveyardcheck();
+void addinfocheck();
+void mnamecheck();
+void fnationcheck();
+void mnationcheck();
+void gnamecheck();
+void staycheck();
+void disabilitycheck();
+void center1check();
+void center2check();
+void vname1check();
+void vname2check();
+void grdistrictcheck();
+void bdistrictcheck();
+void bfnamecheck();
+void grfnamecheck();
+void grnamecheck();
+void bnamecheck();
+void bnationcheck();
+void grnationcheck();
+void grreligioncheck();
+void breligioncheck();
+void grstatuscheck();
+void bstatuscheck();
+void idcheck();
+void idcheckgr();
+void idcheckbr();
+void idcheckfather();
+void idcheckmother();
+void idcheckapp();
+void idcheckgd();
+void idcheckfgr();
+void idcheckfbr();
+void formnocheck();
+void birthdatecheck();
+void issuedatecheck();
+void expirydatecheck();
+void vac1datecheck();
+void vac2datecheck();
+void deathdatecheck();
+void burialdatecheck();
+void deathentrydatecheck();
+void provincial_search();
+void gender_search();
+void religion_search();
+int adminPASSWORD_CHECKER();
+void records();
+
+struct common {
+	char name[30],fathername[30],gender[10],identitynumber[30],id_cat[50],dateofbirth[20],issuedate[20],expirydate[20],address[30],fathercnic[30],district[30],FRC[30];
+	char province[20],mothercnic[30],mothername[30],applicantname[30],applicantcnic[30],applicantrelation[20],nationality[30],religion[20],birthmark[20],relation[20],cpy[100],id_ask[30],complaint[30];
+	struct bcertificate {
+		char grandfathername[30],grandfathercnic[30],mothernationality[20],fathernationality[20];
+	} bc;
+	//struct bcertificate bc;
+	struct bform {
+		char disability[20],grandfathername[30],nic[7];
+	} bf;
+	//struct bform bf;
+	struct nicop {
+		char country[30];
+	} op;
+	//struct nicop op
+	struct marriage_divorce {
+		char name_g[20],nat_g[15],cnic_g[15],rel_g[14],age_g[3],martials_g[15],fname_g[20],fcnic_g[15],add_g[50],dist_g[20];
+		char name_b[20],nat_b[15],cnic_b[15],rel_b[14],age_b[3],martials_b[15],fname_b[20],fcnic_b[15],add_b[50],dist_b[20];
+	} md;
+	//struct marriage_divorce md;
+	struct vaccination {
+		char passport[30],dateofvac1[20],nameofVac1[20],center1[20],dateofvac2[20],nameofVac2[20],center2[20];
+	} vacc;
+	//struct vaccination vacc;
+	struct death {
+		char crms[10],formnumber[10],nature[20],housenumber[5],city[20],tehsil[20],dateofdeath[20],dateofburial[20],graveyard[20],entrydate[20],addinfo[50],placeofdeath[30];
+	} dt;
+	//struct death dt;
+} person;
+
+
+
+
+
+
+
+struct from {
+	struct nic {
+		int nnum;
+	} NIC;
+
+	struct snic {
+		int snum;
+	} SNIC;
+
+	struct birth {
+		int bnum;
+	} BIRTH;
+
+	struct Bform {
+		int bfnum;
+	} BFORM;
+
+	struct Nicop {
+		int Nnum;
+	} NICOP;
+
+	struct marriage {
+		int Mnum;
+	} MARRIAGE;
+
+	struct	divorce {
+		int Dnum;
+	} DIVORCE;
+
+	struct juvenile {
+		int Jnum;
+	} JUVENILE;
+
+	struct vaccine {
+		int Vnum;
+	} VACCINE;
+
+	struct Complaints {
+		int com_num;
+	} COMPLAINTS;
+
+	struct Death {
+		int denum;
+	} DEATH;
+
+
+} f;
+
+struct admin_login {
+	char password[50];
+} ID;
+
+
+void main () {
+
+	FILE*fpp;
+	int user;
+	int admin;
+	system("COLOR 20");
+	int pub_eng,input;
+
+	int ans;
+	printf(GRNB);
+	printf(BHWHT"\n\n________________________________________________________________________________________________________________________________________________________________________\n\t\t\t\t\t\t  WELCOME TO NATIONAL DATABASE AND REGITRATION AUTHORITY\n________________________________________________________________________________________________________________________________________________________________________\n\n\n");
+
+//	reenter:
+	printf(BHWHT"1.Login as user\n\n2.Login as Administrator\n");
+	printf("\nYOUR CHOICE:");
+	scanf("%d",&input);
+	system("cls");
+//	reenter:
+	switch(input) {
+		case 1:
+			printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\t\t\t\t\t\t                    VERIFY YOUR ID\n________________________________________________________________________________________________________________________________________________________________________\n\n\n");
+
+			for(;;) {
+				printf("Enter ID(CNIC number) to proceed:");
+				fflush(stdin);
+				gets(person.identitynumber);
+				idcheck();
+				fpp=fopen(person.identitynumber,"r");
+				if(fpp==NULL) {
+					printf("id doesnt exixst\n");
+					printf("1.Enter again\n2.Exit\n");
+					int choice12;
+					scanf("%d",&choice12);
+					switch(choice12) {
+						case 1:
+							break;
+						case 2:
+							exit(1);
+							break;
+					}
+					continue;
+				} else {
+					break;
+				}
+			}
+
+
+			int choice_l;
+			int choice_s;
+			int choice_cont;
+			int cs,css;
+			system("cls");
+			for(;;) {
+backk1:
+				system("cls");
+				printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t   Select from following options\n\n________________________________________________________________________________________________________________________________________________________________________\n\n1.Complaints\n\n2.Timmings\n\n3.About Us\n\n4.Public Engagemnet\n\n5.Family Information\n\n6.Search Records\n\n0.Exit\n\n");
+				int choice_m;
+				printf("\nYOUR CHOICE:");
+				scanf("%d",&choice_m);
+				system("cls");
+				int choice_d;
+
+
+				int choice_AS;
+
+				char nationality[15],namofcent1[20],vac_nam1[15],namofcent2[20],vac_nam2[15];
+				switch (choice_m) {
+
+					case 1:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT COMPLAIN TYPE\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n1.Misprinting\n\n2.Spelling error\n\n3.Wrong Information\n\n4.Identity Theft\n\n5.Staff conduct\n\n6.Others\n\n7.Back\n\n0.Exit\n\n");
+						int c;
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&c);
+						system("cls");
+						if(c==1)
+							strcpy(person.complaint,"Misprinting");
+						else if (c==2)
+							strcpy(person.complaint,"Spelling Error");
+						else if	(c==3)
+							strcpy(person.complaint,"Wrong Information");
+						else if	(c==4)
+							strcpy(person.complaint,"Identity Theft");
+						else if	(c==5)
+							strcpy(person.complaint,"Staff conduct");
+						else if(c==6) {
+							printf("Please state the complaint in one or two words\n");
+							fflush(stdin);
+							gets(person.complaint);
+						} else if(c==7)
+							goto backk1;
+						else
+							exit(1);
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\tKindly provide the following Information\n\n________________________________________________________________________________________________________________________________________________________________________\n\n");
+						printf("Name: ");
+						fflush(stdin);
+						gets(person.name);
+						namecheck();
+						printf("Identity Number: ");
+						gets(person.identitynumber);
+						idcheck();
+						printf("Address: ");
+						gets(person.address);
+						addinfocheck();
+						printf("Date: ");
+						gets(person.dateofbirth);
+						FILE* comp;
+						comp=fopen(person.identitynumber,"a");
+						fprintf(comp,"\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp,"\t\t   COMPLAINT FORM\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp,"   Name: %s",person.name);
+						fprintf(comp,"\n   ID number: %s",person.identitynumber);
+						fprintf(comp,"\n   Complaint type: %s",person.complaint);
+						fprintf(comp,"\n   Address: %s",person.address);
+						fprintf(comp,"\n   Date: %s\n",person.dateofbirth);
+						fclose(comp);
+						FILE* comp_s;
+						strcpy(person.id_cat,person.identitynumber);
+						strcat(person.id_cat,"complaint");
+						comp_s=fopen(person.id_cat,"a");
+						fprintf(comp_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp_s,"\t\t   COMPLAINT FORM\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp_s,"   Name: %s",person.name);
+						fprintf(comp_s,"\n   ID number: %s",person.identitynumber);
+						fprintf(comp_s,"\n   Complaint type: %s",person.complaint);
+						fprintf(comp_s,"\n   Address: %s",person.address);
+						fprintf(comp_s,"\n   Date: %s\n",person.dateofbirth);
+						fclose(comp_s);
+
+						break;
+					case 2:
+						//timing
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   TIMMINGS \n\n________________________________________________________________________________________________________________________________________________________________________\n\n");
+						printf("1.SINDH :                 8:00-3:30\n2.PUNJAB:                 8:30-4:30\n3.BALOCHISTAN:            9:00-4:30\n4.KHYBER PAKHTUNKHWA:     8:00-4:30\n");
+					
+
+					
+						break;
+					case 3:
+						//about us
+						printf("CHAIRMAN NADRA\n\n");
+						printf("Muhammad Tariq Malik, was appointed as Chairman of the National Database and Registration Authority (NADRA), Pakistan, after a transparent and highly competitive worldwide selection process.Before his appointment in NADRA he was working as Chief Technical Advisor, United Nations Development Program (UNDP) where he was advising on 'Digital Governance' to 130+ member states across five regions spread over worldwide.Prior to joining UNDP, he served World Bank as a Senior Technical Consultant.He was a member of the core team who helped to initiate the worldwide 'ID for Development' (#ID4D) Program as well as authored the framework of international standards for digital identity.Tariq is among the ten core members of Technical Experts Group (TEG) of World Bank who supported client countries with ID planning and implementation.[1] His name was included in the World’s 100 Most Influential People in ‘Digital Government’ by a European think tank known as Apolitical [2] He was also named among Top 100 Digital Influencers in the 'Digital Community' by One World Identity (OWI)- a New York based independent identity research and strategy think tank focused on cyber security, digital commerce and risk management [3] Before joining World Bank Malik helped various governments to optimize use of Big Data and advanced data analytics from the platform of Teradata Inc. USA.");
+						printf("\nAUTHORITY BOARD\n\n");
+						printf("NADRA Authority board consists of independent members appointed by the Federal Government. The Authority Board Members are experts in various fields and oversee the strategic elements pertaining to the National Database & Registration Authority.\n");
+						printf("Mr. Muhammad Tariq Malik: Chairman NADRA\nDr. Muhammad Amir Malik: Member NADRA\nMs. Sultana Mahmood: Member NADRA\nMr. Wasim Sohail Hashmi Syed: Member NADRA\nMr. Aamir Bashir: Member NADRA\nDr. Riaz Inayat: Member NADRA\nKashif Iqbal: Secretary Authority Board\n");
+						printf("\nNADRA SENIOR MANAGEMENT\n\n");
+						printf("NADRA senior management participates in determining the organization’s strategy and has responsibility to run day to day operations\n");
+						printf("Mr. Ali Javed: Chief Administration Officer\nBrig.(R) Khalid Latif Khan: Chief Operating Officer\nBrig(R) Abdul Rehman: Chief Human Resource Officer\nRashid Javid: Chief Financial Officer\nM. Gohar Ahmed Khan: Chief Project Officer\nKashif Iqbal: Chief of Staff\n");
+						printf("\nOPERATIONAL MANAGEMENT\n\n");
+						printf("NADRA field operations are controlled through eight Regional Headquarters. Each Regional Headquarter has varying numbers of Zonal offices which are responsible for controlling NADRA Registration Centers operating in their area of responsibility. Number of Zonal offices and NADRA Registration Centers are dependent on population and size of the area. Each Region is controlled by Director General who is directly reporting to senior management of NADRA. Main responsibility of Regional DGs is to ensure that all applicants are handled with utmost customer care without compromising NADRA’s Registration rules/regulations/SOPs.\n");
+						printf("Mr. Muhammad Anees Khan: DG RHO Karachi\nSyed Saqlain Abbas Bokhari: DG RHO Lahore\nBrig(R)Talat Qayyum: DG Islamabad\nMr. Naveed Jan Sahibzada: DG RHO Sargodha\nMr. Mir Alam Khan: DG RHO Quetta\nLt. Col (R) Sohail Mehmood: DG Sukkur\nMr. Shams Bin Niaz: DG Multan\nMr. Sohail Jehangir: DG RHO Peshawar\n");
+						break;
+					case 4:
+						//				int pub_eng;
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT FROM THE FOLLOWING ADVERTISEMENT TYPE\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n:1-Advertisement\n\n2-Media Release\n\n3-Public information officer\n\n ");
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&pub_eng);
+						switch(pub_eng) {
+							case 1:
+								printf("\nQaumi Tasdeeq-o-Tajdeed Campaign\n\nNADRA has launched a ‘Qaumi Tasdeeq-o-Tajdeed Campaign’ (QTTC), a new system for verification of the family members. Under the QTTC, the family members can be verified from the registered mobile number in NADRA through a SMS “<13 digit CNIC No Space Issue Date>”  at “8009”.In response, you will receive details of your family members. If any information is incorrect or the name of an intruder or unrelated person is included in the family members, write “1” in reply to inform the NADRA. A representative of the NADRA will contact you in this regard from help line 051-2778009. If all the information is found correct, write “2” in reply, to confirm the correct information to the NADRA.\n");
+								printf("\nPak COVID Vaccination Pass\nGovernment of Pakistan has launched the Covid-19 Vaccination Pass App to facilitate the people to carry their digital Covid vaccination certificates online. This App allows users to download their Covid vaccination certificate issued through https://nims.nadra.gov.pk/nims/certificate and save it on the phone. The digital certificate is official proof of COVID-19 vaccination should it be needed domestically or internationally.Additionally, the QR Code is also given in the app for prompt verification of digital certificates.\n");
+								printf("\nAlien Registration System\nThe federal government will issue Alien Card to illegal immigrants staying in Pakistan. All people after getting ID cards for aliens would be able to open bank accounts, obtain SIMs, utility connections and driving licenses. All illegal immigrants would now get a special number on the pattern of biometric NADRA cards and immigrants would have to inform the organization in case of shifting from one city to another city.\n");
+								printf("\nMobile Biometric Verification\nNADRA is launching Pak-ID mobile application to facilitate applicants of Pak-ID portal in capturing biometrics and documents. The application will showcase, for the very first time in Pakistan, the functionality of capturing fingerprints using mobile camera. Users will be able to digitally capture fingerprints, photograph and documents using a smart phone eliminating conventional methods of using specialized equipment or physical paper.This new technology will revolutionize the National ID Eco System in Pakistan. The infrastructure cost will reduce, efficiency will increase and quality of citizen centric services will significantly enhance. The technology will directly impact financial inclusion, ease of doing business and e-governance initiatives by offering remote identification and e-KYC features. It will open doors to growth opportunities for companies allowing them to rapidly on-board users and provide modern password-less authentication. Small business, startups and fintech organizations will also harvest its digital dividends as rent seekers will be eliminated and the cost of conducting business will reduce. The digital footprint of the technology will stimulate young entrepreneurship and promote digital services. This upgrade of the National ID Eco System will support trust building with tech Giants like Amazon and Paypal to conduct business in Pakistan and offer services.The Mobile Biometric Verification will serve as a catalyst in the journey of Digital Pakistan");
+
+								break;
+							case 2:
+								printf("\nPeshawar High Court Directives for Public\n\n");
+								printf("\nHigh Court of Peshawar sent a directive to NADRA for guidance to the public and departments regarding the issuance of NADRA CNIC numbers.\n");
+								printf("\nNADRA Launches Centralized Complaint Management System for Citizens\n\n");
+								printf("NADRA introduces the newly re-designed NADRA Centralized Complaint Management System (NCCMS) on Monday to smoothen and centralize its grievance redressal process.With the extended magnitude of public service undertaken by NADRA, the institution faced an indiscriminate inflow of complaints from various platforms like phone helpline, Twitter, Facebook, Pakistan Citizen’s Portal (PMDU), written applications/complaints, old complaint management system (CMS) and people coming physically to NADRA offices and Headquarter. The dispersed mechanisms for grievance redressal resulted in delayed and inefficient complaint resolution.The new NCCMS is a great leap forward in improving service delivery and a vast improvement on the previously dispersed arrangements that lacked a proper mechanism for tracking, categorizing, monitoring and response on complaints.  The new system will enable the NADRA management to respond to the queries and complaints of general public availing NADRA services across the country and abroad promptly and efficiently. The Compliant management portal will be live on NADRA’s website where the citizens can directly file their complaints regarding any issues they face pertaining to NADRA.Chairman NADRA Tariq Malik while inaugurating NCCMS said that he opened up NADRA services and employees’ performance, for the public to measure and define on their own. Seeing NADRA from public eye led him to develop a single centralized system which could enable the authority venturing into a Rapid Redressal Regime, he added.Mr. Malik said, “NADRA is the largest public facing organization at national level that incurs a footfall of average 100,000 people daily at its 755 NADRA registration centers (NRCs), 263 Mobile Registration Vans (MRVS) and 10 overseas centers. NADRA’s online Pak-ID services are also available globally in more than 190 countries.”The new system will provide a unified view of complaints related to all NADRA products, services and projects.With an effective monitoring mechanism, the NCCMS has the feature to escalate the complaint if it is not resolved in a given resolution timeframe.  When a complaint is not resolved in due time, there is also a super escalation feature that brings up the complaint directly to Chairman NADRA.Complaints can be registered by a citizen using any of the following channels and  these complaints will then be logged into the NCCMS, for centralized monitoring, action and resolution. The channels are NADRA helpline 1777 for mobile phone users, 051-111786100 for landline users and international callers, Email, Social Media – complaints received by Customer Services Department (CSD), NADRA Twitter & Facebook handles and Regional DGs through their social media accounts.The system has been equipped with all required features such as status tracking via unique registration number, escalation and receipt of closure, to make the experience user-friendly.To enhance performance of NRCs, we have leveraged technology and data analytics to conduct real-time monitoring from our Headquarters Operation Room. Token processing, queue handling is monitored live and interventions are made accordingly to improve service delivery at all levels.\n");
+								printf("\nNADRA vehemently rejects the misconstrued opinion of Dawn’s author about NADRA’s role.\n\n");
+								printf("Apropos to the Opinion “NADRA’s algebra” authored by Zubeida Mustafa in Dawn on Jan 28, 2022, NADRA Spokesperson intends to clarify that the author has misconstrued the role of NADRA which primarily registers the people of Pakistan.In Pakistan, the Computerized National Identity Card (CNIC) reflects the synergy effect in which various identification functions concentrate into a single document and most public services route through the national identity card number. This function of CNIC authenticates that the public services are rendered to the right person. In the same manner, the voter lists are prepared underpinning one person, one identity and one vote.  NADRA has always strived towards inclusive registration with its core tenet as ‘empowerment through legal identity’.With regards to unvaccinated people, the governance, strategy, and operational control are with Ministry of National Health Services, Regulation and Coordination (MONHSR&C) and National Command & Operation Centre (NCOC). It is the stated policy of NCOC to vaccinate people without CNIC across the country only with a condition that they get themselves registered with NADRA for availing other public services. So far approximately 1.5 million unregistered persons (without CNICs) have been vaccinated across the country. NADRA is only the implementation partner responsible for maintaining a transparent database of vaccinated individuals.The National Immunization Management System (NIMS) developed by NADRA, is a robust and scalable solution that is integrated with all concerned stakeholders i.e. Ministry of Health, National Database & Registration Authority (NADRA), Federal Extended Program on Immunization (EPI), and all Telecommunication operators of the country. The system is National ID card (NIC) centric and carries out real-time validation of NIC for registration, scheduling and vaccine administration along with certificate issuance, validation and dynamic dashboards for informed decision making of the policymakers. The system also has the capacity to carry out online/real time verification of issued certificates using the NIMS database.At the outset of vaccine supply that was scarce initially, Government of Pakistan desired to initiate vaccination process for the most vulnerable people in advanced age-brackets, CNIC database was used to identify vulnerable people like that of author of the opinion herself via age-brackets as per demographics. Citizens were provided a fool proof and easy to use SMS as well as web based system for registration, identification of eligibility as per vulnerable groups and subsequent scheduling on a particular Vaccine Centre for vaccine administration.It is pertinent to mention that during the early days of COVID-19, MONHSR&C and NCOC mandated NADRA to design, develop, and host a digital system for vaccine administration. After detailed deliberations with all stakeholders, National Immunization Management System (NIMS) was envisaged to consolidate all immunization activities that are being carried out in the country, on a single intelligent platform. Pakistan is one of the countries that have managed a seamless COVID-19 vaccination administration and so far more than 174 million dozes have been administered using NIMS. Digital system ensures transparency, audit trail and real-time information accessibility.Moreover with regard to the registration of vital events such as birth, death, marriage and divorce, the registration of such events is exclusively the domain of Union Councils (UC), Cantonment Boards and other local government bodies of respective provinces. As some births in the country are not registered in UCs, some Pakistanis do not conduct any of the activities described above; thus a few do not have CNICs. Despite being outside its mandate, NADRA has always extended its full technical support to Local government in Civil registration systems and currently we are in the process of implementing a wholesome technical solution to integrate Civil registration and vital statistics data from all local governments.NADRA has specifically focused on the unregistered individuals by creating a dedicated Inclusive Registration Department (IRD) that strategically devises means to enhance registration, especially for women, minorities, transgender and unregistered persons.In this regard, NADRA specifically targeted 80 districts with a gender gap of more than 10% in registration figures. In 2021, more than 3.2 million women were registered with NADRA. Our evidence-based strategy paid off and in the last few months, and we have successfully reduced the gender gap by 40% in these targeted districts. NADRA opened 18 x Female Only NADRA centres, predominantly in KP to overcome the socio-cultural barriers of women hesitating to deal with male staff. At our centres, priority handling and ‘queue jump’ is given to senior citizens and disabled persons and recently, we have set up dedicated desks for transgender registrations.Pakistan is the only country in the world where the state brings its ID services to the doorsteps of the citizen through an online platform (id.nadra.gov.pk) that is open to all resident and Overseas Pakistanis, so that they can avail an ID from the convenience of their homes. Furthermore, 262 Mobile Registration Vans (MRVs) and 80 Person pack units have been deployed countrywide that reach out to people living in remote areas or senior citizens who may not be able to travel to the nearest NRC.As of January 2022, 120 million people i.e 96% of adult population (above 18) possess CNICs. As per the population figures of the previous census (2017), NADRA has provided CNIC to 65,908,886 (99% coverage) persons in Punjab, 25,686,818 (96%) persons in Sindh, 17,861,972 (98%) persons in KPK and FATA and 4,933,366 (83%) persons in Baluchistan NADRA has developed an infrastructure that allows maximum accessibility. There are 700+ NRCs operating country wide and in all 154 districts of Pakistan. In 2021, NADRA opened 66 new tehsil-level NRCs and a total of 517 tehsils have a NADRA registration centre. By June 2022, NADRA Registration Centres will be present in all tehsils of the country.NADRA has always strived towards strengthening the social contract, inclusive registration practices and maintaining a transparent, yet secure database of the people. Only when the state is able to count on its citizens, it is able to roll out public services and identity is the first and fundamental step towards this. NADRA has proudly partnered with multiple public and private sector entities, to enable an ID centric ecosystem around which a number of digital public goods are rolled out for the betterment and convenience of citizens.");
+								break;
+							case 3:
+								printf("PUBLIC INFORMATION OFFICER\n\n");
+								printf("Under Section 9 of the Right of Access to Information Act 2017, NADRA designated “Mr. Faik Ali Chachar” as Public Information Officer (PIO) vide letter No. NADRA/CS/47 in order to fulfill its obligations under the Act. Following are the details of the designated PIO:\n");
+								printf("Faik Ali Chachar\n");
+								printf("Public Information Officer\n");
+								printf("NADRA State Bank of Pakistan Building, Shahrah-i-Jamhuriat,G-5/2, Islamabad, 44000, Pakistan\n");
+								break;
+						}
+						//public engagement
+
+
+						break;
+					case 5:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SEARCH FAMILY INFORMATION\n\n________________________________________________________________________________________________________________________________________________________________________\n\n");
+
+						frc();
+						break;
+					case 6:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT THE TYPE OF SEARCHING\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n1.Generalized\n\n2.Specific\n\n");
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&cs);
+						switch(cs) {
+							case 1:
+								search();
+								break;
+							case 2:
+								system("cls");
+								printf("Select:\n11.Identity Docs\t22.Complaints\n");
+								printf("\nYOUR CHOICE:");
+								scanf("%d",&css);
+								switch(css) {
+									case 11:
+										search_specific_id();
+										break;
+									case 22:
+										search_specific_comp();
+										break;
+									default:
+										printf("Invalid choice\n");
+								}
+						}
+						break;
+					case 0:
+						exit(1);
+						break;
+				}
+				printf("Do you want to continue\n1.YES\t2.NO\n");
+				printf("\nYOUR CHOICE:");
+				scanf("%d",&choice_cont);
+				if(choice_cont==1)
+					continue;
+				else
+					exit(1);
+				break;
+			}
+			break;
+		case 2:
+			system("cls");
+
+
+			printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\t\t\t\t\t\t  VERIFY YOUR IDENTITY\n________________________________________________________________________________________________________________________________________________________________________\n\n\n");
+
+
+
+
+			while(admin=adminPASSWORD_CHECKER()) {
+				printf("Wrong password\n");
+				printf("1.Enter again\n2.Exit\n");
+				int choice12;
+				scanf("%d",&choice12);
+				switch(choice12) {
+					case 1:
+						break;
+					case 2:
+						exit(1);
+						break;
+				}
+			}
+			system("cls");
+			for(;;) {
+back1:
+				system("cls");
+				printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t   Select from following options\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n1.ID Documents\n\n2.Complaints\n\n3.Timmings\n\n4.About Us\n\n5.Public Engagemnet\n\n6.Family Information\n\n7.Search Records\n\n8.Statistics\n\n0.Exit\n\n");
+				int choice_m;
+				printf("\nYOUR CHOICE:");
+				scanf("%d",&choice_m);
+				system("cls");
+				int choice_d;
+
+				int choice_AS;
+
+				char nationality[15],namofcent1[20],vac_nam1[15],namofcent2[20],vac_nam2[15];
+				switch (choice_m) {
+back2:
+					case 8:
+						records();
+						break;
+
+
+					case 1:
+
+
+						system("cls");
+
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t   Select from following options\n\n________________________________________________________________________________________________________________________________________________________________________\n\n1.National Identity Card(NIC)\n\n2.Smart National Identity Card(SNIC)\n\n3.Birth certificate\n\n4.B-form\n\n5.NIC for Overseas Pakistanis(NICOP)\n\n6.Marriage Registeration Certificate\n\n7.Divorce Registeration Certificate\n\n8.Juvenile Card\n\n9.Vaccination Card\n\n10.Death Certificate\n\n11.Back\n\n12.Exit\n\n");
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&choice_d);
+						system("cls");
+						switch(choice_d) {
+							case 1:
+								nic();
+								break;
+							case 2:
+								snic();
+								break;
+							case 3:
+								birth();
+								break;
+							case 4:
+								bform();
+								break;
+							case 5:
+								nicop();
+								break;
+							case 6:
+								marriage();
+								break;
+							case 7:
+								divorce();
+								break;
+							case 8:
+								juvenile();
+
+								break;
+							case 9:
+								vaccine();
+								break;
+							case 10:
+								death();
+								break;
+							case 11:
+								goto back1;
+								break;
+							case 12:
+								exit(1);
+								break;
+						}
+						break;
+
+					case 2:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT COMPLAIN TYPE\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n1.Misprinting\n\n2.Spelling error\n\n3.Wrong Information\n\n4.Identity Theft\n\n5.Staff conduct\n\n6.Others\n\n7.Back\n\n0.Exit\n\n");
+						int c;
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&c);
+						if(c==1)
+							strcpy(person.complaint,"Misprinting");
+						else if (c==2)
+							strcpy(person.complaint,"Spelling Error");
+						else if	(c==3)
+							strcpy(person.complaint,"Wrong Information");
+						else if	(c==4)
+							strcpy(person.complaint,"Identity Theft");
+						else if	(c==5)
+							strcpy(person.complaint,"Staff conduct");
+						else if(c==6) {
+							printf("Please state the complaint in one or two words\n");
+							fflush(stdin);
+							gets(person.complaint);
+						} else if(c==7)
+							goto back1;
+						else
+							exit(1);
+						printf("Kindly provide the following Information\n");
+						printf("Name: ");
+						fflush(stdin);
+						gets(person.name);
+						namecheck();
+						printf("Identity Number: ");
+						gets(person.identitynumber);
+						idcheck();
+						printf("Address: ");
+						gets(person.address);
+						addinfocheck();
+						printf("Date: ");
+						gets(person.dateofbirth);
+						FILE* comp;
+						comp=fopen(person.identitynumber,"a");
+						fprintf(comp,"\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp,"\t\t   COMPLAINT FORM\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp,"   Name: %s",person.name);
+						fprintf(comp,"\n   ID number: %s",person.identitynumber);
+						fprintf(comp,"\n   Complaint type: %s",person.complaint);
+						fprintf(comp,"\n   Address: %s",person.address);
+						fprintf(comp,"\n   Date: %s\n",person.dateofbirth);
+						fclose(comp);
+						FILE* comp_s;
+						strcpy(person.id_cat,person.identitynumber);
+						strcat(person.id_cat,"complaint");
+						comp_s=fopen(person.id_cat,"a");
+						fprintf(comp_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp_s,"\t\t   COMPLAINT FORM\n------------------------------------------------------\n------------------------------------------------------\n");
+						fprintf(comp_s,"   Name: %s",person.name);
+						fprintf(comp_s,"\n   ID number: %s",person.identitynumber);
+						fprintf(comp_s,"\n   Complaint type: %s",person.complaint);
+						fprintf(comp_s,"\n   Address: %s",person.address);
+						fprintf(comp_s,"\n   Date: %s\n",person.dateofbirth);
+						fclose(comp_s);
+
+						break;
+					case 3:
+						//timing
+						
+						break;
+					case 4:
+						//about us
+						printf("CHAIRMAN NADRA\n\n");
+						printf("Muhammad Tariq Malik, was appointed as Chairman of the National Database and Registration Authority (NADRA), Pakistan, after a transparent and highly competitive worldwide selection process.Before his appointment in NADRA he was working as Chief Technical Advisor, United Nations Development Program (UNDP) where he was advising on 'Digital Governance' to 130+ member states across five regions spread over worldwide.Prior to joining UNDP, he served World Bank as a Senior Technical Consultant.He was a member of the core team who helped to initiate the worldwide 'ID for Development' (#ID4D) Program as well as authored the framework of international standards for digital identity.Tariq is among the ten core members of Technical Experts Group (TEG) of World Bank who supported client countries with ID planning and implementation.[1] His name was included in the World’s 100 Most Influential People in ‘Digital Government’ by a European think tank known as Apolitical [2] He was also named among Top 100 Digital Influencers in the 'Digital Community' by One World Identity (OWI)- a New York based independent identity research and strategy think tank focused on cyber security, digital commerce and risk management [3] Before joining World Bank Malik helped various governments to optimize use of Big Data and advanced data analytics from the platform of Teradata Inc. USA.");
+						printf("\nAUTHORITY BOARD\n\n");
+						printf("NADRA Authority board consists of independent members appointed by the Federal Government. The Authority Board Members are experts in various fields and oversee the strategic elements pertaining to the National Database & Registration Authority.\n");
+						printf("Mr. Muhammad Tariq Malik: Chairman NADRA\nDr. Muhammad Amir Malik: Member NADRA\nMs. Sultana Mahmood: Member NADRA\nMr. Wasim Sohail Hashmi Syed: Member NADRA\nMr. Aamir Bashir: Member NADRA\nDr. Riaz Inayat: Member NADRA\nKashif Iqbal: Secretary Authority Board\n");
+						printf("\nNADRA SENIOR MANAGEMENT\n\n");
+						printf("NADRA senior management participates in determining the organization’s strategy and has responsibility to run day to day operations\n");
+						printf("Mr. Ali Javed: Chief Administration Officer\nBrig.(R) Khalid Latif Khan: Chief Operating Officer\nBrig(R) Abdul Rehman: Chief Human Resource Officer\nRashid Javid: Chief Financial Officer\nM. Gohar Ahmed Khan: Chief Project Officer\nKashif Iqbal: Chief of Staff\n");
+						printf("\nOPERATIONAL MANAGEMENT\n\n");
+						printf("NADRA field operations are controlled through eight Regional Headquarters. Each Regional Headquarter has varying numbers of Zonal offices which are responsible for controlling NADRA Registration Centers operating in their area of responsibility. Number of Zonal offices and NADRA Registration Centers are dependent on population and size of the area. Each Region is controlled by Director General who is directly reporting to senior management of NADRA. Main responsibility of Regional DGs is to ensure that all applicants are handled with utmost customer care without compromising NADRA’s Registration rules/regulations/SOPs.\n");
+						printf("Mr. Muhammad Anees Khan: DG RHO Karachi\nSyed Saqlain Abbas Bokhari: DG RHO Lahore\nBrig(R)Talat Qayyum: DG Islamabad\nMr. Naveed Jan Sahibzada: DG RHO Sargodha\nMr. Mir Alam Khan: DG RHO Quetta\nLt. Col (R) Sohail Mehmood: DG Sukkur\nMr. Shams Bin Niaz: DG Multan\nMr. Sohail Jehangir: DG RHO Peshawar\n");
+						break;
+					case 5:
+						//				int pub_eng;
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT FROM THE FOLLOWING ADVERTISEMENT TYPE\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n:1-Advertisement\n\n2-Media Release\n\n3-Public information officer\n\n ");
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&pub_eng);
+						switch(pub_eng) {
+							case 1:
+								printf("\nQaumi Tasdeeq-o-Tajdeed Campaign\n\nNADRA has launched a ‘Qaumi Tasdeeq-o-Tajdeed Campaign’ (QTTC), a new system for verification of the family members. Under the QTTC, the family members can be verified from the registered mobile number in NADRA through a SMS “<13 digit CNIC No Space Issue Date>”  at “8009”.In response, you will receive details of your family members. If any information is incorrect or the name of an intruder or unrelated person is included in the family members, write “1” in reply to inform the NADRA. A representative of the NADRA will contact you in this regard from help line 051-2778009. If all the information is found correct, write “2” in reply, to confirm the correct information to the NADRA.\n");
+								printf("\nPak COVID Vaccination Pass\nGovernment of Pakistan has launched the Covid-19 Vaccination Pass App to facilitate the people to carry their digital Covid vaccination certificates online. This App allows users to download their Covid vaccination certificate issued through https://nims.nadra.gov.pk/nims/certificate and save it on the phone. The digital certificate is official proof of COVID-19 vaccination should it be needed domestically or internationally.Additionally, the QR Code is also given in the app for prompt verification of digital certificates.\n");
+								printf("\nAlien Registration System\nThe federal government will issue Alien Card to illegal immigrants staying in Pakistan. All people after getting ID cards for aliens would be able to open bank accounts, obtain SIMs, utility connections and driving licenses. All illegal immigrants would now get a special number on the pattern of biometric NADRA cards and immigrants would have to inform the organization in case of shifting from one city to another city.\n");
+								printf("\nMobile Biometric Verification\nNADRA is launching Pak-ID mobile application to facilitate applicants of Pak-ID portal in capturing biometrics and documents. The application will showcase, for the very first time in Pakistan, the functionality of capturing fingerprints using mobile camera. Users will be able to digitally capture fingerprints, photograph and documents using a smart phone eliminating conventional methods of using specialized equipment or physical paper.This new technology will revolutionize the National ID Eco System in Pakistan. The infrastructure cost will reduce, efficiency will increase and quality of citizen centric services will significantly enhance. The technology will directly impact financial inclusion, ease of doing business and e-governance initiatives by offering remote identification and e-KYC features. It will open doors to growth opportunities for companies allowing them to rapidly on-board users and provide modern password-less authentication. Small business, startups and fintech organizations will also harvest its digital dividends as rent seekers will be eliminated and the cost of conducting business will reduce. The digital footprint of the technology will stimulate young entrepreneurship and promote digital services. This upgrade of the National ID Eco System will support trust building with tech Giants like Amazon and Paypal to conduct business in Pakistan and offer services.The Mobile Biometric Verification will serve as a catalyst in the journey of Digital Pakistan");
+
+								break;
+							case 2:
+								printf("\nPeshawar High Court Directives for Public\n\n");
+								printf("\nHigh Court of Peshawar sent a directive to NADRA for guidance to the public and departments regarding the issuance of NADRA CNIC numbers.\n");
+								printf("\nNADRA Launches Centralized Complaint Management System for Citizens\n\n");
+								printf("NADRA introduces the newly re-designed NADRA Centralized Complaint Management System (NCCMS) on Monday to smoothen and centralize its grievance redressal process.With the extended magnitude of public service undertaken by NADRA, the institution faced an indiscriminate inflow of complaints from various platforms like phone helpline, Twitter, Facebook, Pakistan Citizen’s Portal (PMDU), written applications/complaints, old complaint management system (CMS) and people coming physically to NADRA offices and Headquarter. The dispersed mechanisms for grievance redressal resulted in delayed and inefficient complaint resolution.The new NCCMS is a great leap forward in improving service delivery and a vast improvement on the previously dispersed arrangements that lacked a proper mechanism for tracking, categorizing, monitoring and response on complaints.  The new system will enable the NADRA management to respond to the queries and complaints of general public availing NADRA services across the country and abroad promptly and efficiently. The Compliant management portal will be live on NADRA’s website where the citizens can directly file their complaints regarding any issues they face pertaining to NADRA.Chairman NADRA Tariq Malik while inaugurating NCCMS said that he opened up NADRA services and employees’ performance, for the public to measure and define on their own. Seeing NADRA from public eye led him to develop a single centralized system which could enable the authority venturing into a Rapid Redressal Regime, he added.Mr. Malik said, “NADRA is the largest public facing organization at national level that incurs a footfall of average 100,000 people daily at its 755 NADRA registration centers (NRCs), 263 Mobile Registration Vans (MRVS) and 10 overseas centers. NADRA’s online Pak-ID services are also available globally in more than 190 countries.”The new system will provide a unified view of complaints related to all NADRA products, services and projects.With an effective monitoring mechanism, the NCCMS has the feature to escalate the complaint if it is not resolved in a given resolution timeframe.  When a complaint is not resolved in due time, there is also a super escalation feature that brings up the complaint directly to Chairman NADRA.Complaints can be registered by a citizen using any of the following channels and  these complaints will then be logged into the NCCMS, for centralized monitoring, action and resolution. The channels are NADRA helpline 1777 for mobile phone users, 051-111786100 for landline users and international callers, Email, Social Media – complaints received by Customer Services Department (CSD), NADRA Twitter & Facebook handles and Regional DGs through their social media accounts.The system has been equipped with all required features such as status tracking via unique registration number, escalation and receipt of closure, to make the experience user-friendly.To enhance performance of NRCs, we have leveraged technology and data analytics to conduct real-time monitoring from our Headquarters Operation Room. Token processing, queue handling is monitored live and interventions are made accordingly to improve service delivery at all levels.\n");
+								printf("\nNADRA vehemently rejects the misconstrued opinion of Dawn’s author about NADRA’s role.\n\n");
+								printf("Apropos to the Opinion “NADRA’s algebra” authored by Zubeida Mustafa in Dawn on Jan 28, 2022, NADRA Spokesperson intends to clarify that the author has misconstrued the role of NADRA which primarily registers the people of Pakistan.In Pakistan, the Computerized National Identity Card (CNIC) reflects the synergy effect in which various identification functions concentrate into a single document and most public services route through the national identity card number. This function of CNIC authenticates that the public services are rendered to the right person. In the same manner, the voter lists are prepared underpinning one person, one identity and one vote.  NADRA has always strived towards inclusive registration with its core tenet as ‘empowerment through legal identity’.With regards to unvaccinated people, the governance, strategy, and operational control are with Ministry of National Health Services, Regulation and Coordination (MONHSR&C) and National Command & Operation Centre (NCOC). It is the stated policy of NCOC to vaccinate people without CNIC across the country only with a condition that they get themselves registered with NADRA for availing other public services. So far approximately 1.5 million unregistered persons (without CNICs) have been vaccinated across the country. NADRA is only the implementation partner responsible for maintaining a transparent database of vaccinated individuals.The National Immunization Management System (NIMS) developed by NADRA, is a robust and scalable solution that is integrated with all concerned stakeholders i.e. Ministry of Health, National Database & Registration Authority (NADRA), Federal Extended Program on Immunization (EPI), and all Telecommunication operators of the country. The system is National ID card (NIC) centric and carries out real-time validation of NIC for registration, scheduling and vaccine administration along with certificate issuance, validation and dynamic dashboards for informed decision making of the policymakers. The system also has the capacity to carry out online/real time verification of issued certificates using the NIMS database.At the outset of vaccine supply that was scarce initially, Government of Pakistan desired to initiate vaccination process for the most vulnerable people in advanced age-brackets, CNIC database was used to identify vulnerable people like that of author of the opinion herself via age-brackets as per demographics. Citizens were provided a fool proof and easy to use SMS as well as web based system for registration, identification of eligibility as per vulnerable groups and subsequent scheduling on a particular Vaccine Centre for vaccine administration.It is pertinent to mention that during the early days of COVID-19, MONHSR&C and NCOC mandated NADRA to design, develop, and host a digital system for vaccine administration. After detailed deliberations with all stakeholders, National Immunization Management System (NIMS) was envisaged to consolidate all immunization activities that are being carried out in the country, on a single intelligent platform. Pakistan is one of the countries that have managed a seamless COVID-19 vaccination administration and so far more than 174 million dozes have been administered using NIMS. Digital system ensures transparency, audit trail and real-time information accessibility.Moreover with regard to the registration of vital events such as birth, death, marriage and divorce, the registration of such events is exclusively the domain of Union Councils (UC), Cantonment Boards and other local government bodies of respective provinces. As some births in the country are not registered in UCs, some Pakistanis do not conduct any of the activities described above; thus a few do not have CNICs. Despite being outside its mandate, NADRA has always extended its full technical support to Local government in Civil registration systems and currently we are in the process of implementing a wholesome technical solution to integrate Civil registration and vital statistics data from all local governments.NADRA has specifically focused on the unregistered individuals by creating a dedicated Inclusive Registration Department (IRD) that strategically devises means to enhance registration, especially for women, minorities, transgender and unregistered persons.In this regard, NADRA specifically targeted 80 districts with a gender gap of more than 10% in registration figures. In 2021, more than 3.2 million women were registered with NADRA. Our evidence-based strategy paid off and in the last few months, and we have successfully reduced the gender gap by 40% in these targeted districts. NADRA opened 18 x Female Only NADRA centres, predominantly in KP to overcome the socio-cultural barriers of women hesitating to deal with male staff. At our centres, priority handling and ‘queue jump’ is given to senior citizens and disabled persons and recently, we have set up dedicated desks for transgender registrations.Pakistan is the only country in the world where the state brings its ID services to the doorsteps of the citizen through an online platform (id.nadra.gov.pk) that is open to all resident and Overseas Pakistanis, so that they can avail an ID from the convenience of their homes. Furthermore, 262 Mobile Registration Vans (MRVs) and 80 Person pack units have been deployed countrywide that reach out to people living in remote areas or senior citizens who may not be able to travel to the nearest NRC.As of January 2022, 120 million people i.e 96% of adult population (above 18) possess CNICs. As per the population figures of the previous census (2017), NADRA has provided CNIC to 65,908,886 (99% coverage) persons in Punjab, 25,686,818 (96%) persons in Sindh, 17,861,972 (98%) persons in KPK and FATA and 4,933,366 (83%) persons in Baluchistan NADRA has developed an infrastructure that allows maximum accessibility. There are 700+ NRCs operating country wide and in all 154 districts of Pakistan. In 2021, NADRA opened 66 new tehsil-level NRCs and a total of 517 tehsils have a NADRA registration centre. By June 2022, NADRA Registration Centres will be present in all tehsils of the country.NADRA has always strived towards strengthening the social contract, inclusive registration practices and maintaining a transparent, yet secure database of the people. Only when the state is able to count on its citizens, it is able to roll out public services and identity is the first and fundamental step towards this. NADRA has proudly partnered with multiple public and private sector entities, to enable an ID centric ecosystem around which a number of digital public goods are rolled out for the betterment and convenience of citizens.");
+								break;
+							case 3:
+								printf("PUBLIC INFORMATION OFFICER\n\n");
+								printf("Under Section 9 of the Right of Access to Information Act 2017, NADRA designated “Mr. Faik Ali Chachar” as Public Information Officer (PIO) vide letter No. NADRA/CS/47 in order to fulfill its obligations under the Act. Following are the details of the designated PIO:\n");
+								printf("Faik Ali Chachar\n");
+								printf("Public Information Officer\n");
+								printf("NADRA State Bank of Pakistan Building, Shahrah-i-Jamhuriat,G-5/2, Islamabad, 44000, Pakistan\n");
+								break;
+						}
+						//public engagement
+
+
+						break;
+					case 6:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SEARCH FAMILY INFORMATION\n\n________________________________________________________________________________________________________________________________________________________________________\n\n");
+
+						frc();
+						break;
+					case 7:
+						printf("\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   SELECT THE TYPE OF SEARCHING\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n1.Generalized\n\n2.Specific\n\n");
+						printf("\nYOUR CHOICE:");
+						scanf("%d",&cs);
+						switch(cs) {
+							case 1:
+								search();
+								break;
+							case 2:
+								system("cls");
+								printf("Select:\n11.Identity Docs\n22.Complaints\n33.Provincial level\n44.Gender wise\n55.Religion wise\n");
+								printf("\nYOUR CHOICE:");
+								scanf("%d",&css);
+								switch(css) {
+									case 11:
+										search_specific_id();
+										break;
+									case 22:
+										search_specific_comp();
+										break;
+									case 33:
+										provincial_search();
+										break;
+									case 44:
+										gender_search();
+										break;
+									case 55:
+										religion_search();
+										break;
+									default:
+										printf("Invalid choice\n");
+								}
+						}
+						break;
+					case 0:
+						exit(1);
+						break;
+				}
+				printf("Do you want to continue\n1.YES\t2.NO\n");
+				printf("\nYOUR CHOICE:");
+				scanf("%d",&choice_cont);
+				if(choice_cont==1)
+					continue;
+				else {
+					exit(1);
+				}
+			}
+			break;
+		default:
+			printf("Invalid input.\nExiting the program.\n");
+			break;
+
+
+	}
+}
+
+void nic() {
+	int i,j,k,counter=0;
+	FILE* nicp=NULL;
+	printf("Name: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("Father's Name: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("Father ID: ");
+	gets(person.fathercnic);
+	idcheckfather();
+	printf("Gender: ");
+	gets(person.gender);
+	gendercheck();
+	printf("Identity number: ");
+	gets(person.identitynumber);
+	fflush(stdin);
+	idcheck();
+	printf("Date of birth(DD-MM-YYYY): ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("Nationality: ");
+	gets(person.nationality);
+	nationcheck();
+	printf("Religion: ");
+	gets(person.religion);
+	religioncheck();
+	printf("Permanent Address: ");
+	gets(person.address);
+	printf("Date of issue(DD-MM-YYYY): ");
+	gets(person.issuedate);
+	issuedatecheck();
+	printf("Birth Mark: ");
+	gets(person.birthmark);
+	bmarkcheck();
+	int count_nic=form_nic();
+	printf("FORM NUMBER IS: %d\n", count_nic);
+	printf("\n\n");
+
+	nicp=fopen(person.identitynumber,"a");
+	fprintf(nicp,"_____________________________________________\n");
+	fprintf(nicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(nicp," ");
+	fprintf(nicp," ");
+	fprintf(nicp," ");
+	fprintf(nicp," ");
+	fprintf(nicp,"\t  NATIONAL IDENTITY CARD\n");
+	fprintf(nicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp,"Name: %s",person.name);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Father's name:%s ",person.fathername);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Father's ID:%s",person.fathercnic);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Gender: %s",person.gender);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"identity number:%s ",person.identitynumber);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Date of birth:%s ",person.dateofbirth);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Nationality:%s ",person.nationality);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Religion:%s ",person.religion);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Permanent Address: %s",person.address);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Date of issue:%s ",person.issuedate);
+	fprintf(nicp,"\n");
+	fprintf(nicp,"Birth Mark:%s ",person.birthmark);
+	fprintf(nicp,"\nFORM NUMBER:%d ",count_nic);
+	fprintf(nicp,"\n\n");
+	fprintf(nicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp,"_____________________________________________\n");
+	fclose(nicp);
+	FILE* nicp_s=NULL;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"nic");
+	nicp_s=fopen(person.id_cat,"a");
+	fprintf(nicp_s,"_____________________________________________\n");
+	fprintf(nicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(nicp_s," ");
+	fprintf(nicp_s," ");
+	fprintf(nicp_s," ");
+	fprintf(nicp_s," ");
+	fprintf(nicp_s,"\t  NATIONAL IDENTITY CARD\n");
+	fprintf(nicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp_s,"Name: %s",person.name);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Father's name:%s ",person.fathername);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Father's ID:%s",person.fathercnic);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Gender: %s",person.gender);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"identity number:%s ",person.identitynumber);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Date of birth:%s ",person.dateofbirth);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Nationality:%s ",person.nationality);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Religion:%s ",person.religion);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Permanent Address: %s",person.address);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Date of issue:%s ",person.issuedate);
+	fprintf(nicp_s,"\n");
+	fprintf(nicp_s,"Birth Mark:%s ",person.birthmark);
+	fprintf(nicp_s,"\nFORM NUMBER:%d ",count_nic);
+	fprintf(nicp_s,"\n\n");
+	fprintf(nicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(nicp_s,"_____________________________________________\n");
+	fclose(nicp_s);
+
+}
+void snic() {
+	char name[30],fathername[30],gender[8],identitynumber[30],dateofbirth[12],country[50],religion[20],address[30],birthmark[20],issuedate[12];
+	FILE *snicp=NULL;
+	printf("Name: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("Father's Name: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("Gender: ");
+	gets(person.gender);
+	gendercheck();
+	printf("Identity number: ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("Date of birth(DD-MM-YYYY): ");
+	fflush(stdin);
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("Nationality: ");
+	gets(person.nationality);
+	nationcheck();
+	printf("Religion: ");
+	gets(person.religion);
+	religioncheck();
+	printf("Permanent Address: ");
+	gets(person.address);
+	printf("Date of issue(DD-MM-YYYY): ");
+	gets(person.issuedate);
+	printf("Birth Mark: ");
+	gets(person.birthmark);
+	bmarkcheck();
+	int count_snic=form_snic();
+	printf("FORM NUMBER IS: %d\n", count_snic);
+	printf("\n\n");
+
+
+	snicp=fopen(person.identitynumber,"a");
+	fprintf(snicp,"_____________________________________________\n");
+	fprintf(snicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(snicp,"\tSMART NATIONAL IDENTITY CARD\n");
+	fprintf(snicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp,"Name: %s",person.name);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Father's name:%s ",person.fathername);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Gender: %s",person.gender);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"identity number:%s ",person.identitynumber);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Date of birth:%s ",person.dateofbirth);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Nationality:%s ",person.nationality);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Religion:%s ",person.religion);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Permanent Address: %s",person.address);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Date of issue:%s ",person.issuedate);
+	fprintf(snicp,"\n");
+	fprintf(snicp,"Birth Mark:%s ",person.birthmark);
+	fprintf(snicp,"\nFORM NUMBER:%d ",count_snic);
+	fprintf(snicp,"\n\n");
+	fprintf(snicp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp,"_____________________________________________\n");
+	fclose(snicp);
+	FILE* snicp_s=NULL;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"snic");
+	snicp_s=fopen(person.id_cat,"a");
+	fprintf(snicp_s,"_____________________________________________\n");
+	fprintf(snicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(snicp_s,"\tSMART NATIONAL IDENTITY CARD\n");
+	fprintf(snicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp_s,"Name: %s",person.name);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Father's name:%s ",person.fathername);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Gender: %s",person.gender);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"identity number:%s ",person.identitynumber);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Date of birth:%s ",person.dateofbirth);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Nationality:%s ",person.nationality);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Religion:%s ",person.religion);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Permanent Address: %s",person.address);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Date of issue:%s ",person.issuedate);
+	fprintf(snicp_s,"\n");
+	fprintf(snicp_s,"Birth Mark:%s ",person.birthmark);
+	fprintf(snicp_s,"\nFORM NUMBER:%d ",count_snic);
+	fprintf(snicp_s,"\n\n");
+	fprintf(snicp_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(snicp_s,"_____________________________________________\n");
+	fclose(snicp_s);
+}
+
+void birth() {
+	FILE *birthp=NULL;
+	printf("Name of child: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("Identity Number: ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("Date of birth(DD-MM-YYYY): ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("Gender: ");
+	gets(person.gender);
+	gendercheck();
+	printf("Address:");
+	gets(person.address);
+	printf("District of birth: ");
+	gets(person.district);
+	districtcheck();
+	printf("Father's name: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("Nationality of father:");
+	gets(person.bc.fathernationality);
+	fnationcheck();
+	printf("CNIC No. of Father: ");
+	gets(person.fathercnic);
+	idcheckfather();
+	printf("Mother's name: ");
+	gets(person.mothername);
+	mnamecheck();
+	printf("Nationality of mother: ");
+	gets(person.bc.mothernationality);
+	mnationcheck();
+	printf("CNIC No. of mother: ");
+	gets(person.mothercnic);
+	idcheckmother();
+	printf("Grandfather's name: ");
+	gets(person.bc.grandfathername);
+	gnamecheck();
+	printf("Grand father's CNIC No. : ");
+	gets(person.bc.grandfathercnic);
+	idcheckgd();
+	printf("address: ");
+	gets(person.address);
+	printf("Name of applicant: ");
+	gets(person.applicantname);
+	appnamecheck();
+	printf("Relation with child: ");
+	gets(person.relation);
+	relationcheck();
+	int count_birth=form_birth();
+	printf("FORM NUMBER IS: %d\n", count_birth);
+	printf("\n\n");
+
+
+
+
+	birthp=fopen(person.identitynumber,"a");
+	fprintf(birthp,"_____________________________________________\n");
+	fprintf(birthp,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(birthp,"\tBirth Registration Certificate\n");
+	fprintf(birthp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birthp,"\t\tChild's Detail\n\n");
+	fprintf(birthp,"Name:%s\n",person.name);
+	fprintf(birthp,"Identity Number:%s\n",person.identitynumber);
+	fprintf(birthp,"Date of birth:%s\n",person.dateofbirth);
+	fprintf(birthp,"Gender:%s\n",person.gender);
+	fprintf(birthp,"District of birth:%s \n",person.district);
+	fprintf(birthp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birthp,"  ");
+	fprintf(birthp,"     \tParental Information\n\n");
+	fprintf(birthp,"Father's name:%s \n",person.fathername);
+	fprintf(birthp,"Nationality of father:%s\n",person.bc.fathernationality);
+	fprintf(birthp,"CNIC No. of Father: \n",person.fathercnic);
+	fprintf(birthp,"Mother's name:%s \n",person.mothername);
+	fprintf(birthp,"Nationality of mother: \n",person.bc.mothernationality);
+	fprintf(birthp,"CNIC No. of mother:%s \n",person.mothercnic);
+	fprintf(birthp,"Grandfather's name:%s \n",person.bc.grandfathername);
+	fprintf(birthp,"Grand father's CNIC No. :%s \n",person.bc.grandfathercnic);
+	fprintf(birthp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birthp,"   \t\tAddress\n\n");
+	fprintf(birthp,"address:%s\n",person.address);
+	fprintf(birthp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birthp,"    \tApplicant's Information\n\n");
+	fprintf(birthp,"Name of applicant:%s \n",person.applicantname);
+	fprintf(birthp,"Relation with child:%s \n",person.relation);
+	fprintf(birthp,"\nFORM NUMBER:%d ",count_birth);
+	fprintf(birthp,"\n");
+	fprintf(birthp,"_____________________________________________\n");
+	fclose(birthp);
+	FILE* birth_s=NULL;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"birth");
+	birth_s=fopen(person.id_cat,"a");
+	fprintf(birth_s,"_____________________________________________\n");
+	fprintf(birth_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(birth_s,"\tBirth Registration Certificate\n");
+	fprintf(birth_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birth_s,"\t\tChild's Detail\n\n");
+	fprintf(birth_s,"Name:%s\n",person.name);
+	fprintf(birth_s,"Identity Number:%s\n",person.identitynumber);
+	fprintf(birth_s,"Date of birth:%s\n",person.dateofbirth);
+	fprintf(birth_s,"Gender:%s\n",person.gender);
+	fprintf(birth_s,"District of birth:%s \n",person.district);
+	fprintf(birth_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birth_s,"  ");
+	fprintf(birth_s,"     \tParental Information\n\n");
+	fprintf(birth_s,"Father's name:%s \n",person.fathername);
+	fprintf(birth_s,"Nationality of father:%s\n",person.bc.fathernationality);
+	fprintf(birth_s,"CNIC No. of Father: \n",person.fathercnic);
+	fprintf(birth_s,"Mother's name:%s \n",person.mothername);
+	fprintf(birth_s,"Nationality of mother: \n",person.bc.mothernationality);
+	fprintf(birth_s,"CNIC No. of mother:%s \n",person.mothercnic);
+	fprintf(birth_s,"Grandfather's name:%s \n",person.bc.grandfathername);
+	fprintf(birth_s,"Grand father's CNIC No. :%s \n",person.bc.grandfathercnic);
+	fprintf(birth_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birth_s,"   \t\tAddress\n\n");
+	fprintf(birth_s,"address:%s\n",person.address);
+	fprintf(birth_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(birth_s,"    \tApplicant's Information\n\n");
+	fprintf(birth_s,"Name of applicant:%s \n",person.applicantname);
+	fprintf(birth_s,"Relation with child:%s \n",person.relation);
+	fprintf(birth_s,"\nFORM NUMBER:%d ",count_birth);
+	fprintf(birth_s,"\n");
+	fprintf(birth_s,"_____________________________________________\n");
+	fclose(birth_s);
+}
+void bform() {
+	printf("Name of applicant: ");
+	fflush(stdin);
+	gets(person.applicantname);
+	appnamecheck();
+	printf("CNIC No. of applicant: ");
+	gets(person.applicantcnic);
+	idcheckapp();
+	printf("Name of child: ");
+	gets(person.name);
+	namecheck();
+	gen:
+	printf("Gender: ");
+	gets(person.gender);
+	for(;;)
+	{
+		if(strcmpi(person.gender,"male")==0||strcmpi(person.gender,"female")==0) {
+		break;
+	} else {
+		printf("Invalid input\n");
+		goto gen;
+		
+	}
+	}
+	//gendercheck();
+	printf("Father's name: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("CNIC No. of Father: ");
+	gets(person.fathercnic);
+	idcheckfather();
+	printf("Mother's name: ");
+	gets(person.mothername);
+	mnamecheck();
+	printf("CNIC No. of mother: ");
+	gets(person.mothercnic);
+	idcheckmother();
+	printf("grandfather name: ");
+	gets(person.bf.grandfathername);
+	prov:
+	printf("Province of birth:  ");
+	gets(person.province);
+	for(;;)
+	{
+		if(strcmpi(person.province,"kpk")==0||strcmpi(person.province,"kyber pakhtunkhwa")==0||strcmpi(person.province,"FATA")==0||strcmpi(person.province,"punjab")==0||strcmpi(person.province,"sindh")==0||strcmpi(person.province,"balochistan")==0|| strcmpi(person.province,"baluchistan")==0||strcmpi(person.province,"islamabad")==0||strcmpi(person.province,"gilgit")==0 || strcmpi(person.province,"gilgit/baltistan")==0|| strcmpi(person.province,"baltistan")==0) {
+		break;
+	}else
+	{
+		printf("Invalid input\n");
+		goto prov;	
+	}
+}
+	rel:
+	printf("Religion: ");
+	gets(person.religion);
+	for(;;)
+	{
+		if(strcmpi(person.religion,"islam")==0||strcmpi(person.religion,"hindu")==0||strcmpi(person.religion,"hinduism")==0||strcmpi(person.religion,"christian")==0||strcmpi(person.religion,"christianity")==0||strcmpi(person.religion,"ahmadi")==0||strcmpi(person.religion,"ahmadiyah")==0||strcmpi(person.religion,"others")==0||strcmpi(person.religion,"other")==0) {
+		break;	
+	}else{
+	printf("invalid input\n");
+	goto rel;
+}
+	}
+	//religioncheck();
+	
+	printf("Date of birth(DD-MM-YYYY): ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("Disability: ");
+	gets(person.bf.disability);
+	disabilitycheck();
+	printf("Your identity number is: ");
+	Identity(person.province,person.bf.grandfathername,person.fathername,person.mothername,person.name,person.religion,person.gender);
+
+
+
+
+
+	int count_bform=form_bform();
+	printf("FORM NUMBER IS: %d\n", count_bform);
+
+	FILE *bformp=NULL;
+	bformp=fopen(person.bf.nic,"a");
+	fprintf(bformp,"_____________________________________________\n");
+	fprintf(bformp,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(bformp,"  ");
+	fprintf(bformp,"\t\tB-Form\n");
+	fprintf(bformp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(bformp,"Name of applicant:%s \n",person.applicantname);
+	fprintf(bformp,"CNIC No. of applicant:%s \n",person.applicantcnic);
+	fprintf(bformp,"Name of child:%s \n",person.name);
+	fprintf(bformp,"Gender:%s \n",person.gender);
+	fprintf(bformp,"Father's name:%s \n",person.fathername);
+	fprintf(bformp,"CNIC No. of Father:%s \n",person.fathercnic);
+	fprintf(bformp,"Mother's name:%s \n",person.mothername);
+	fprintf(bformp,"CNIC No. of mother:%s \n",person.mothercnic);
+	fprintf(bformp,"Date of birth:%s\n",person.dateofbirth);
+	fprintf(bformp,"Disability:%s \n",person.bf.disability);
+	fprintf(bformp,"Identity Number: %s \n",person.bf.nic);
+	fprintf(bformp,"\nForm Number: %d \n",count_bform);
+	fprintf(bformp,"\n\n");
+	fprintf(bformp,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(bformp,"_____________________________________________\n");
+	fclose(bformp);
+	FILE* bform_s=NULL;
+	strcpy(person.id_cat,person.bf.nic);
+	strcat(person.id_cat,"bform");
+	bform_s=fopen(person.id_cat,"a");
+	fprintf(bform_s,"_____________________________________________\n");
+	fprintf(bform_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(bform_s,"  ");
+	fprintf(bform_s,"\t\tB-Form\n");
+	fprintf(bform_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(bform_s,"Name of applicant:%s \n",person.applicantname);
+	fprintf(bform_s,"CNIC No. of applicant:%s \n",person.applicantcnic);
+	fprintf(bform_s,"Name of child:%s \n",person.name);
+	fprintf(bform_s,"Gender:%s \n",person.gender);
+	fprintf(bform_s,"Father's name:%s \n",person.fathername);
+	fprintf(bform_s,"CNIC No. of Father:%s \n",person.fathercnic);
+	fprintf(bform_s,"Mother's name:%s \n",person.mothername);
+	fprintf(bform_s,"CNIC No. of mother:%s \n",person.mothercnic);
+	fprintf(bform_s,"Date of birth:%s\n",person.dateofbirth);
+	fprintf(bform_s,"Disability:%s \n",person.bf.disability);
+	fprintf(bform_s,"Identity Number: %s \n",person.bf.nic);
+	fprintf(bform_s,"\nForm Number: %d \n",count_bform);
+	fprintf(bform_s,"\n\n");
+	fprintf(bform_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(bform_s,"_____________________________________________\n");
+	fclose(bform_s);
+	FILE *frc=NULL;
+	strcpy(person.id_cat,person.fathercnic);
+	strcat(person.id_cat,"frc");
+	frc=fopen(person.id_cat,"a");
+	fprintf(frc,"_____________________________________________\n");
+	fprintf(frc,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(frc,"  ");
+	fprintf(frc,"\t\tB-Form\n");
+	fprintf(frc,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(frc,"Name of applicant:%s \n",person.applicantname);
+	fprintf(frc,"CNIC No. of applicant:%s \n",person.applicantcnic);
+	fprintf(frc,"Name of child:%s \n",person.name);
+	fprintf(frc,"Gender:%s \n",person.gender);
+	fprintf(frc,"Father's name:%s \n",person.fathername);
+	fprintf(frc,"CNIC No. of Father:%s \n",person.fathercnic);
+	fprintf(frc,"Mother's name:%s \n",person.mothername);
+	fprintf(frc,"CNIC No. of mother:%s \n",person.mothercnic);
+	fprintf(frc,"Date of birth:%s\n",person.dateofbirth);
+	fprintf(frc,"Disability:%s \n",person.bf.disability);
+	fprintf(frc,"Identity Number: %s \n",person.bf.nic);
+	fprintf(frc,"\n\n");
+	fprintf(frc,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(frc,"_____________________________________________\n");
+	fclose(frc);
+	FILE* further_search;
+	if(person.bf.nic[6]=='1') {
+		further_search=fopen("male_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[6]=='2') {
+		further_search=fopen("Female_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	}
+	fclose(further_search);
+	if(person.bf.nic[0]=='1') {
+		further_search=fopen("Kpk_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='2') {
+		further_search=fopen("FATA_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='3') {
+		further_search=fopen("Punjab_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='4') {
+		further_search=fopen("Sindh_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='5') {
+		further_search=fopen("Balochistan.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='6') {
+		further_search=fopen("Islamabad_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[0]=='7') {
+		further_search=fopen("Gilgit_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	}
+	fclose(further_search);
+	if (person.bf.nic[5]=='1') {
+		further_search=fopen("Muslims_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[5]=='2') {
+		further_search=fopen("Hindus_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} else if (person.bf.nic[5]=='3') {
+		further_search=fopen("Christians_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	} 
+	else if (person.bf.nic[5]=='4') {
+		further_search=fopen("Ahmadis_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	}
+		else if (person.bf.nic[5]=='5') {
+		further_search=fopen("Minorities_data.txt","a");
+		fprintf(further_search,"Name: %s\n\n",person.name);
+		fprintf(further_search,"Identity Number: %s\n\n",person.bf.nic);
+		fprintf(further_search,"Father Name: %s\n\n",person.fathername);
+		fprintf(further_search,"Father ID: %s\n\n\n",person.fathercnic);
+	}
+	fclose(further_search);
+}
+void nicop() {
+	printf("Enter the following details:\n1.Name:  ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("\n2.Identity Number:  ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("\n3.Father's Name:  ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("\n4.Gender:  ");
+	gets(person.gender);
+	gendercheck();
+	printf("\n5.Date of Birth(DD-MM-YYYY):  ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("\n6.Country of Stay:  ");
+	gets(person.op.country);
+	staycheck();
+	int count_nicop=form_nicop();
+	printf("FORM NUMBER IS: %d\n", count_nicop);
+
+	FILE * nicop=NULL;
+	nicop=fopen(person.identitynumber,"a");
+	fprintf(nicop,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(nicop,"\t\t   NICOP CARD\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(nicop,"   Name: %s",person.name);
+	fprintf(nicop,"\n   ID number: %s",person.identitynumber);
+	fprintf(nicop,"\n   Father's Name: %s",person.fathername);
+	fprintf(nicop,"\n   Gender: %s",person.gender);
+	fprintf(nicop,"\n   Date of Birth: %s",person.dateofbirth);
+	fprintf(nicop,"\n   Country of Stay: %s",person.op.country);
+	fprintf(nicop,"\nForm Number: %d \n",count_nicop);
+	fclose(nicop);
+	FILE* nicop_s;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"nicop");
+	nicop_s=fopen(person.id_cat,"a");
+	fprintf(nicop_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(nicop_s,"\t\t   NICOP CARD\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(nicop_s,"   Name: %s",person.name);
+	fprintf(nicop_s,"\n   ID number: %s",person.identitynumber);
+	fprintf(nicop_s,"\n   Father's Name: %s",person.fathername);
+	fprintf(nicop_s,"\n   Gender: %s",person.gender);
+	fprintf(nicop_s,"\n   Date of Birth: %s",person.dateofbirth);
+	fprintf(nicop_s,"\n   Country of Stay: %s",person.op.country);
+	fprintf(nicop_s,"\nForm Number: %d \n",count_nicop);
+	fclose(nicop_s);
+}
+void marriage() {
+	printf("Enter Particulars of Groom:\n1.Name  ");
+	fflush(stdin);
+	gets(person.md.name_g);
+	grnamecheck();
+	printf("\n2.Nationality:  ");
+	gets(person.md.nat_g);
+	grnationcheck();
+	printf("\n3.CNIC.NO:  ");
+	gets(person.md.cnic_g);
+	idcheckgr();
+	printf("\n4.Religion:  ");
+	gets(person.md.rel_g);
+	grreligioncheck();
+	printf("\n5.Age:  ");
+	gets(person.md.age_g);
+//	gragecheck();
+	printf("\n6.Martial Status:  ");
+	gets(person.md.martials_g);
+	grstatuscheck();
+	printf("\n7.Father's Name:  ");
+	gets(person.md.fname_g);
+	grfnamecheck();
+	printf("\n8.CNIC.NO:  ");
+	gets(person.md.fcnic_g);
+	idcheckfgr();
+	printf("\n9.Address:  ");
+	gets(person.md.add_g);
+	printf("\n10.District:  ");
+	gets(person.md.dist_g);
+	grdistrictcheck();
+	printf("\n\nEnter Particulars of Bride:\n1.Name  ");
+	fflush(stdin);
+	gets(person.md.name_b);
+	bnamecheck();
+	printf("\n2.Nationality:  ");
+	gets(person.md.nat_b);
+	bnationcheck();
+	printf("\n3.CNIC.NO:  ");
+	gets(person.md.cnic_b);
+	idcheckbr();
+	printf("\n4.Religion:  ");
+	gets(person.md.rel_b);
+	breligioncheck();
+	printf("\n5.Age:  ");
+	gets(person.md.age_b);
+	printf("\n6.Martial Status:  ");
+	gets(person.md.martials_b);
+	bstatuscheck();
+	printf("\n7.Father's Name:  ");
+	gets(person.md.fname_b);
+	bfnamecheck();
+	printf("\n8.CNIC.NO:  ");
+	gets(person.md.fcnic_b);
+	idcheckfbr();
+	printf("\n9.Address:  ");
+	gets(person.md.add_b);
+	printf("\n10.District:  ");
+	gets(person.md.dist_b);
+	bdistrictcheck();
+	int count_marriage=form_marriage();
+	printf("FORM NUMBER IS: %d\n", count_marriage);
+
+	FILE * mg=NULL;
+	mg=fopen(person.md.cnic_g,"a");
+	fprintf(mg,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mg,"\tMARRIAGE REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mg,"\t     Particulars of Groom\n------------------------------------------------------\n");
+	fprintf(mg,"   Name: %s",person.md.name_g);
+	fprintf(mg,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(mg,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(mg,"\n   Religion: %s",person.md.rel_g);
+	fprintf(mg,"\n   Age: %s",person.md.age_g);
+	fprintf(mg,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(mg,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(mg,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(mg,"\n   Address: %s",person.md.add_g);
+	fprintf(mg,"\n   District: %s\n",person.md.dist_g);
+	fprintf(mg,"------------------------------------------------------\n\t     Particulars of Bride\n------------------------------------------------------\n");
+	fprintf(mg,"   Name: %s",person.md.name_b);
+	fprintf(mg,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(mg,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(mg,"\n   Religion: %s",person.md.rel_b);
+	fprintf(mg,"\n   Age: %s",person.md.age_b);
+	fprintf(mg,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(mg,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(mg,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(mg,"\n   Address: %s",person.md.add_b);
+	fprintf(mg,"\n   District: %s",person.md.dist_b);
+	fprintf(mg,"\nForm Number: %d \n",count_marriage);
+	fclose(mg);
+	FILE* mg_s=NULL;
+	strcpy(person.id_cat,person.md.cnic_g);
+	strcat(person.id_cat,"m");
+	mg_s=fopen(person.id_cat,"a");
+	fprintf(mg_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mg_s,"\tMARRIAGE REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mg_s,"\t     Particulars of Groom\n------------------------------------------------------\n");
+	fprintf(mg_s,"   Name: %s",person.md.name_g);
+	fprintf(mg_s,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(mg_s,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(mg_s,"\n   Religion: %s",person.md.rel_g);
+	fprintf(mg_s,"\n   Age: %s",person.md.age_g);
+	fprintf(mg_s,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(mg_s,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(mg_s,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(mg_s,"\n   Address: %s",person.md.add_g);
+	fprintf(mg_s,"\n   District: %s\n",person.md.dist_g);
+	fprintf(mg_s,"------------------------------------------------------\n\t     Particulars of Bride\n------------------------------------------------------\n");
+	fprintf(mg_s,"   Name: %s",person.md.name_b);
+	fprintf(mg_s,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(mg_s,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(mg_s,"\n   Religion: %s",person.md.rel_b);
+	fprintf(mg_s,"\n   Age: %s",person.md.age_b);
+	fprintf(mg_s,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(mg_s,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(mg_s,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(mg_s,"\n   Address: %s",person.md.add_b);
+	fprintf(mg_s,"\n   District: %s",person.md.dist_b);
+	fprintf(mg_s,"\nForm Number: %d \n",count_marriage);
+	fclose(mg_s);
+	FILE * mb=NULL;
+	mb=fopen(person.md.cnic_b,"a");
+	fprintf(mb,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mb,"\tMARRIAGE REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mb,"\t     Particulars of Groom\n------------------------------------------------------\n");
+	fprintf(mb,"   Name: %s",person.md.name_b);
+	fprintf(mb,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(mb,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(mb,"\n   Religion: %s",person.md.rel_g);
+	fprintf(mb,"\n   Age: %s",person.md.age_g);
+	fprintf(mb,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(mb,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(mb,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(mb,"\n   Address: %s",person.md.add_g);
+	fprintf(mb,"\n   District: %s\n",person.md.dist_g);
+	fprintf(mb,"------------------------------------------------------\n\t     Particulars of Bride\n------------------------------------------------------\n");
+	fprintf(mb,"   Name: %s",person.md.name_b);
+	fprintf(mb,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(mb,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(mb,"\n   Religion: %s",person.md.rel_b);
+	fprintf(mb,"\n   Age: %s",person.md.age_b);
+	fprintf(mb,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(mb,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(mb,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(mb,"\n   Address: %s",person.md.add_b);
+	fprintf(mb,"\n   District: %s",person.md.dist_b);
+	fprintf(mb,"Form Number: %d \n",count_marriage);
+	fclose(mb);
+	FILE* mb_s=NULL;
+	strcpy(person.id_cat,person.md.cnic_b);
+	strcat(person.id_cat,"m");
+	mb_s=fopen(person.id_cat,"a");
+	fprintf(mb_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mb_s,"\tMARRIAGE REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(mb_s,"\t     Particulars of Groom\n------------------------------------------------------\n");
+	fprintf(mb_s,"   Name: %s",person.md.name_b);
+	fprintf(mb_s,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(mb_s,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(mb_s,"\n   Religion: %s",person.md.rel_g);
+	fprintf(mb_s,"\n   Age: %s",person.md.age_g);
+	fprintf(mb_s,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(mb_s,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(mb_s,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(mb_s,"\n   Address: %s",person.md.add_g);
+	fprintf(mb_s,"\n   District: %s\n",person.md.dist_g);
+	fprintf(mb_s,"------------------------------------------------------\n\t     Particulars of Bride\n------------------------------------------------------\n");
+	fprintf(mb_s,"   Name: %s",person.md.name_b);
+	fprintf(mb_s,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(mb_s,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(mb_s,"\n   Religion: %s",person.md.rel_b);
+	fprintf(mb_s,"\n   Age: %s",person.md.age_b);
+	fprintf(mb_s,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(mb_s,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(mb_s,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(mb_s,"\n   Address: %s",person.md.add_b);
+	fprintf(mb_s,"\n   District: %s",person.md.dist_b);
+	fprintf(mb_s,"\nForm Number: %d \n",count_marriage);
+	fclose(mb_s);
+}
+void divorce() {
+	printf("Enter Divorcer's Details:\n1.Name  ");
+	fflush(stdin);
+	gets(person.md.name_g);
+	grnamecheck();
+	printf("\n2.Nationality:  ");
+	gets(person.md.nat_g);
+	grnationcheck();
+	printf("\n3.CNIC.NO:  ");
+	gets(person.md.cnic_g);
+	idcheckgr();
+	printf("\n4.Religion:  ");
+	gets(person.md.rel_g);
+	grreligioncheck();
+	printf("\n5.Age:  ");
+	gets(person.md.age_g);
+	printf("\n6.Father's Name:  ");
+	gets(person.md.fname_g);
+	grfnamecheck();
+	printf("\n7.CNIC.NO:  ");
+	gets(person.md.fcnic_g);
+	idcheckfgr();
+	printf("\n8.Address:  ");
+	gets(person.md.add_g);
+	printf("\n9.District:  ");
+	gets(person.md.dist_g);
+	grdistrictcheck();
+	printf("\n\nEnter Divorcee's Details:\n1.Name  ");
+	fflush(stdin);
+	gets(person.md.name_b);
+	bnamecheck();
+	printf("\n2.Nationality:  ");
+	gets(person.md.nat_b);
+	bnationcheck();
+	printf("\n3.CNIC.NO:  ");
+	gets(person.md.cnic_b);
+	idcheckbr();
+	printf("\n4.Religion:  ");
+	gets(person.md.rel_b);
+	breligioncheck();
+	printf("\n5.Age:  ");
+	gets(person.md.age_b);
+	printf("\n6.Father's Name:  ");
+	gets(person.md.fname_b);
+	bfnamecheck();
+	printf("\n7.CNIC.NO:  ");
+	gets(person.md.fcnic_b);
+	idcheckfgr();
+	printf("\n8.Address:  ");
+	gets(person.md.add_b);
+	printf("\n9.District:  ");
+	gets(person.md.dist_b);
+	bdistrictcheck();
+
+	int count_divorce=form_divorce();
+	printf("FORM NUMBER IS: %d\n", count_divorce);
+
+
+	FILE * dg=NULL;
+	dg=fopen(person.md.cnic_g,"a");
+	fprintf(dg,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(dg,"\tDivorce REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(dg,"\t      Divorcer's Details\n------------------------------------------------------\n");
+	fprintf(dg,"   Name: %s",person.md.name_g);
+	fprintf(dg,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(dg,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(dg,"\n   Religion: %s",person.md.rel_g);
+	fprintf(dg,"\n   Age: %s",person.md.age_g);
+	fprintf(dg,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(dg,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(dg,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(dg,"\n   Address: %s",person.md.add_g);
+	fprintf(dg,"\n   District: %s\n",person.md.dist_g);
+	fprintf(dg,"------------------------------------------------------\n\t    Divorcee's Details\n------------------------------------------------------\n");
+	fprintf(dg,"   Name: %s",person.md.name_b);
+	fprintf(dg,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(dg,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(dg,"\n   Religion: %s",person.md.rel_b);
+	fprintf(dg,"\n   Age: %s",person.md.age_b);
+	fprintf(dg,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(dg,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(dg,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(dg,"\n   Address: %s",person.md.add_b);
+	fprintf(dg,"\n   District: %s",person.md.dist_b);
+	fprintf(dg,"\nForm Number: %d \n",count_divorce);
+	fclose(dg);
+	FILE* dg_s=NULL;
+	strcpy(person.id_cat,person.md.cnic_g);
+	strcat(person.id_cat,"d");
+	dg_s=fopen(person.id_cat,"a");
+	fprintf(dg_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(dg_s,"\tDivorce REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(dg_s,"\t      Divorcer's Details\n------------------------------------------------------\n");
+	fprintf(dg_s,"   Name: %s",person.md.name_g);
+	fprintf(dg_s,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(dg_s,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(dg_s,"\n   Religion: %s",person.md.rel_g);
+	fprintf(dg_s,"\n   Age: %s",person.md.age_g);
+	fprintf(dg_s,"\n   Martial Status: %s",person.md.martials_g);
+	fprintf(dg_s,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(dg_s,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(dg_s,"\n   Address: %s",person.md.add_g);
+	fprintf(dg_s,"\n   District: %s\n",person.md.dist_g);
+	fprintf(dg_s,"------------------------------------------------------\n\t    Divorcee's Details\n------------------------------------------------------\n");
+	fprintf(dg_s,"   Name: %s",person.md.name_b);
+	fprintf(dg_s,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(dg_s,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(dg_s,"\n   Religion: %s",person.md.rel_b);
+	fprintf(dg_s,"\n   Age: %s",person.md.age_b);
+	fprintf(dg_s,"\n   Martial Status: %s",person.md.martials_b);
+	fprintf(dg_s,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(dg_s,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(dg_s,"\n   Address: %s",person.md.add_b);
+	fprintf(dg_s,"\n   District: %s",person.md.dist_b);
+	fprintf(dg_s,"\nForm Number: %d \n",count_divorce);
+	fclose(dg_s);
+	FILE * db=NULL;
+	db=fopen(person.md.cnic_b,"a");
+	fprintf(db,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(db,"\tDivorce REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(db,"\t     Divorcer's Details\n------------------------------------------------------\n");
+	fprintf(db,"   Name: %s",person.md.name_b);
+	fprintf(db,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(db,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(db,"\n   Religion: %s",person.md.rel_g);
+	fprintf(db,"\n   Age: %s",person.md.age_g);
+	fprintf(db,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(db,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(db,"\n   Address: %s",person.md.add_g);
+	fprintf(db,"\n   District: %s\n",person.md.dist_g);
+	fprintf(db,"------------------------------------------------------\n\t     Divorcee's Details\n------------------------------------------------------\n");
+	fprintf(db,"   Name: %s",person.md.name_b);
+	fprintf(db,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(db,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(db,"\n   Religion: %s",person.md.rel_b);
+	fprintf(db,"\n   Age: %s",person.md.age_b);
+	fprintf(db,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(db,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(db,"\n   Address: %s",person.md.add_b);
+	fprintf(db,"\n   District: %s",person.md.dist_b);
+	fprintf(db,"\nForm Number: %d \n",count_divorce);
+	fclose(db);
+	FILE* db_s=NULL;
+	strcpy(person.id_cat,person.md.cnic_b);
+	strcat(person.id_cat,"d");
+	db_s=fopen(person.id_cat,"a");
+	fprintf(db_s,"\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(db_s,"\tDivorce REGISTERATION CERTIFICATE\n------------------------------------------------------\n------------------------------------------------------\n");
+	fprintf(db_s,"\t     Divorcer's Details\n------------------------------------------------------\n");
+	fprintf(db_s,"   Name: %s",person.md.name_b);
+	fprintf(db_s,"\n   Nationality: %s",person.md.nat_g);
+	fprintf(db_s,"\n   CNIC NO: %s",person.md.cnic_g);
+	fprintf(db_s,"\n   Religion: %s",person.md.rel_g);
+	fprintf(db_s,"\n   Age: %s",person.md.age_g);
+	fprintf(db_s,"\n   Father's Name: %s",person.md.fname_g);
+	fprintf(db_s,"\n   CNIC NO: %s",person.md.fcnic_g);
+	fprintf(db_s,"\n   Address: %s",person.md.add_g);
+	fprintf(db_s,"\n   District: %s\n",person.md.dist_g);
+	fprintf(db_s,"------------------------------------------------------\n\t     Divorcee's Details\n------------------------------------------------------\n");
+	fprintf(db_s,"   Name: %s",person.md.name_b);
+	fprintf(db_s,"\n   Nationality: %s",person.md.nat_b);
+	fprintf(db_s,"\n   CNIC NO: %s",person.md.cnic_b);
+	fprintf(db_s,"\n   Religion: %s",person.md.rel_b);
+	fprintf(db_s,"\n   Age: %s",person.md.age_b);
+	fprintf(db_s,"\n   Father's Name: %s",person.md.fname_b);
+	fprintf(db_s,"\n   CNIC NO: %s",person.md.fcnic_b);
+	fprintf(db_s,"\n   Address: %s",person.md.add_b);
+	fprintf(db_s,"\n   District: %s",person.md.dist_b);
+	fprintf(dg_s,"\nForm Number: %d \n",count_divorce);
+	fclose(db_s);
+}
+
+void juvenile() {
+
+	printf("Name: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("Father Name: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("Gender: ");
+	gets(person.gender);
+	gendercheck();
+	printf("Country Of Stay: ");
+	gets(person.nationality);
+	nationcheck();
+	printf("Identity Number: ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("Date Of Birth: ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("Date Of Insurace: ");
+	gets(person.issuedate);
+	issuedatecheck();
+	printf("Date Of Expiry: ");
+	gets(person.expirydate);
+	expirydatecheck();
+
+	int count_juvenile=form_juvenile();
+	printf("FORM NUMBER IS: %d\n", count_juvenile);
+
+	FILE *juvenile=NULL;
+	juvenile=fopen(person.identitynumber,"a");
+	fprintf(juvenile,"_____________________________________________\n");
+	fprintf(juvenile,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(juvenile," ");
+	fprintf(juvenile," ");
+	fprintf(juvenile," ");
+	fprintf(juvenile," ");
+	fprintf(juvenile,"\t    ONLY FOR UNDER 18	\n");
+	fprintf(juvenile,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile,"Name: %s",person.name);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Father's name:%s ",person.fathername);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Gender: %s",person.gender);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Country of stay:%s ",person.nationality);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"identity number:%s ",person.identitynumber);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Date of birth:%s ",person.dateofbirth);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Date of insurance:%s ",person.issuedate);
+	fprintf(juvenile,"\n");
+	fprintf(juvenile,"Date of expiry:%s ",person.expirydate);
+	fprintf(juvenile,"Form Number: %d \n",count_juvenile);
+	fprintf(juvenile,"\n\n");
+	fprintf(juvenile,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile,"_____________________________________________\n");
+	fclose(juvenile);
+	FILE* juvenile_s=NULL;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"juvenile");
+	juvenile_s=fopen(person.id_cat,"a");
+	fprintf(juvenile_s,"_____________________________________________\n");
+	fprintf(juvenile_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(juvenile_s," ");
+	fprintf(juvenile_s," ");
+	fprintf(juvenile_s," ");
+	fprintf(juvenile_s," ");
+	fprintf(juvenile_s,"\t    ONLY FOR UNDER 18	\n");
+	fprintf(juvenile_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile_s,"Name: %s",person.name);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Father's name:%s ",person.fathername);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Gender: %s",person.gender);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Country of stay:%s ",person.nationality);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"identity number:%s ",person.identitynumber);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Date of birth:%s ",person.dateofbirth);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Date of insurance:%s ",person.issuedate);
+	fprintf(juvenile_s,"\n");
+	fprintf(juvenile_s,"Date of expiry:%s ",person.expirydate);
+	fprintf(juvenile_s,"\nForm Number: %d \n",count_juvenile);
+	fprintf(juvenile_s,"\n\n");
+	fprintf(juvenile_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(juvenile_s,"_____________________________________________\n");
+	fclose(juvenile_s);
+
+}
+
+void vaccine() {
+	printf("IMMUNIZATION CERTIFICATE FOR COVID-19\n");
+	printf("ENTER NAME: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("ENTER THE DATE OF BIRTH[DD-MM-YY]: ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("ENTER THE NATIONALITY: ");
+	gets(person.nationality);
+	nationcheck();
+	printf("ENTER THE CNIC NO.: ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("ENTER THE PASSPORT NO.: ");
+	gets(person.vacc.passport);
+	printf("\nhas been administered following COVID-19 vaccination\n");
+	printf("ENTER DATE OF 1 VACCINATION DOSE[DD-MM-YY]: ");
+	gets(person.vacc.dateofvac1);
+	vac1datecheck();
+	printf("ENTER THE NAME OF CENTRE: ");
+	gets(person.vacc.center1);
+	center1check();
+	printf("ENTER THE VACCINE MANUFACTURER NAME: ");
+	gets(person.vacc.nameofVac1);
+	vname1check();
+	printf("ENTER DATE OF 2 VACCINATION DOSE[DD-MM-YY]: ");
+	gets(person.vacc.dateofvac2);
+	vac2datecheck();
+	printf("ENTER THE NAME OF CENTRE: ");
+	gets(person.vacc.center2);
+	center2check();
+	printf("ENTER THE VACCINE MANUFACTURER NAME: ");
+	gets(person.vacc.nameofVac2);
+	vname2check();
+
+	int count_vaccine=form_vaccine();
+	printf("FORM NUMBER IS: %d\n", count_vaccine);
+
+	FILE *vaccine=NULL;
+	vaccine=fopen(person.identitynumber,"a");
+	fprintf(vaccine,"_____________________________________________\n");
+	fprintf(vaccine,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(vaccine," ");
+	fprintf(vaccine," ");
+	fprintf(vaccine," ");
+	fprintf(vaccine," ");
+	fprintf(vaccine,"\t  VACCINATION CARD\n");
+	fprintf(vaccine,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine,"Name: %s",person.name);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Date of birth:%s ",person.dateofbirth);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"identity number:%s ",person.identitynumber);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Nationality: %s",person.nationality);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Passport:%s ",person.vacc.passport);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine," _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine,"Vaccine 1: %s",person.vacc.nameofVac1);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Vaccine 1 Date: %s",person.vacc.dateofvac1);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Name of Health centre: %s ",person.vacc.center1);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Manufacturer Name:%s ",person.vacc.nameofVac1);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine,"Vaccine 2: %s",person.vacc.nameofVac2);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Vaccine 2 Date: %s",person.vacc.dateofvac2);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Name of Health centre: %s ",person.vacc.center2);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"Manufacturer Name:%s ",person.vacc.nameofVac2);
+	fprintf(vaccine,"\nForm Number: %d \n",count_vaccine);
+	fprintf(vaccine,"\n");
+	fprintf(vaccine,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine,"_____________________________________________\n");
+	fclose(vaccine);
+	FILE* vaccine_s=NULL;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"vaccine");
+	vaccine_s=fopen(person.id_cat,"a");
+	fprintf(vaccine_s,"_____________________________________________\n");
+	fprintf(vaccine_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(vaccine_s," ");
+	fprintf(vaccine_s," ");
+	fprintf(vaccine_s," ");
+	fprintf(vaccine_s," ");
+	fprintf(vaccine_s,"\t  VACCINATION CARD\n");
+	fprintf(vaccine_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine_s,"Name: %s",person.name);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Date of birth:%s ",person.dateofbirth);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"identity number:%s ",person.identitynumber);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Nationality: %s",person.nationality);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Passport:%s ",person.vacc.passport);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s," _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine_s,"vaccine 1: %s",person.vacc.nameofVac1);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"vaccine 1: %s",person.vacc.dateofvac1);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Name of Health centre: %s ",person.vacc.center1);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Manufacturer Name:%s ",person.vacc.nameofVac1);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine_s,"vaccine 2: %s",person.vacc.nameofVac2);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"vaccine 2: %s",person.vacc.dateofvac2);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Name of Health centre: %s ",person.vacc.center2);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"Manufacturer Name:%s ",person.vacc.nameofVac2);
+	fprintf(vaccine_s,"\nForm Number: %d \n",count_vaccine);
+	fprintf(vaccine_s,"\n");
+	fprintf(vaccine_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(vaccine_s,"_____________________________________________\n");
+	fclose(vaccine_s);
+}
+
+
+void death() {
+	int CRMS[10],FORM[10], cnic[16],DOD[15],DOBU[15],SICK[10],E_D[16],I_D[16];
+	char nature[10],name[50],rel[20],house[50],city[20],tehsil[20], deceased[50],d_cnic[16],GRAVEYARD[20],sex[15];
+	char religion[20],p_of_death[20],R_O_D[30],A_I[30],f_name[20],district[30],DOB[15];
+
+	printf("NATURE OF DEATH: ");
+	gets(person.dt.nature);
+	naturedeathcheck();
+	printf("APPLICANT NAME: ");
+	gets(person.applicantname);
+	appnamecheck();
+	printf("APPLICANT CNIC: ");
+	gets(person.applicantcnic);
+	idcheckapp();
+	printf("RELATION WITH DECEASED: ");
+	gets(person.relation);
+	relationcheck();
+	printf("ADDRESS: HOUSE#: ");
+	gets(person.dt.housenumber);
+	printf("CITY: ");
+	gets(person.dt.city);
+	citycheck();
+	printf("TEHSIL: ");
+	gets(person.dt.tehsil);
+	tehsilcheck();
+	printf("DISTRICT: ");
+	gets(person.district);
+	districtcheck();
+	printf("DECEASED NAME: ");
+	fflush(stdin);
+	gets(person.name);
+	namecheck();
+	printf("DECEASED CNIC: ");
+	gets(person.identitynumber);
+	idcheck();
+	printf("FATHER NAME: ");
+	gets(person.fathername);
+	fnamecheck();
+	printf("DATE OF BIRTH: ");
+	gets(person.dateofbirth);
+	birthdatecheck();
+	printf("GENDER: ");
+	gets(person.gender);
+	gendercheck();
+	printf("RELIGION: ");
+	gets(person.religion);
+	religioncheck();
+	printf("PLACE OF DEATH: ");
+	gets(person.dt.placeofdeath);
+	deathplacecheck();
+	printf("DATE OF DEATH: ");
+	gets(person.dt.dateofdeath);
+	deathdatecheck();
+	printf("DATE OF BURIAL: ");
+	gets(person.dt.dateofburial);
+	burialdatecheck();
+	printf("GRAVEYARD NAME: ");
+	gets(person.dt.graveyard);
+	graveyardcheck();
+	printf("ENTRY DATE:  ");
+	gets(person.dt.entrydate);
+	deathentrydatecheck();
+	printf("ISSUE DATE: ");
+	gets(person.issuedate);
+	issuedatecheck();
+	printf("ADDITIONAL INFORMATION: ");
+	gets(person.dt.addinfo);
+	addinfocheck();
+
+	int count_death=form_death();
+	printf("FORM NUMBER IS: %d\n", count_death);
+	FILE *death=NULL;
+	death=fopen(person.identitynumber,"a");
+	fprintf(death,"_____________________________________________\n");
+	fprintf(death,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(death,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(death," ");
+	fprintf(death," ");
+	fprintf(death," ");
+	fprintf(death," ");
+	fprintf(death,"\t    DEATH CERTIFICATE\n");
+	fprintf(death,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+//	fprintf(death,"CRMS: %s",person.dt.crms);
+//	fprintf(death,"\n");
+//	fprintf(death,"FORM NO: %s",person.dt.formnumber);
+//	fprintf(death,"\n");
+	fprintf(death,"NATURE OF DEATH: %s",person.dt.nature);
+	fprintf(death,"\n");
+	fprintf(death,"APPLICANT NAME: %s",person.applicantname);
+	fprintf(death,"\n");
+	fprintf(death,"APPLICANT CNIC: %s",person.applicantcnic);
+	fprintf(death,"\n");
+	fprintf(death,"RELATION WITH DECEASED: %s",person.relation);
+	fprintf(death,"\n");
+	fprintf(death,"ADDRESS: HOUSE#: %s",person.dt.housenumber);
+	fprintf(death,"\n");
+	fprintf(death,"CITY: %s",person.dt.city);
+	fprintf(death,"\n");
+	fprintf(death,"TEHSIL: %s",person.dt.tehsil);
+	fprintf(death,"\n");
+	fprintf(death,"DISTRICT: %s",person.district);
+	fprintf(death,"\n");
+	fprintf(death,"DECEASED NAME: %s",person.name);
+	fprintf(death,"\n");
+	fprintf(death,"DECEASED CNIC: %s",person.identitynumber);
+	fprintf(death,"\n");
+	fprintf(death,"FATHER NAME: %s",person.fathername);
+	fprintf(death,"\n");
+	fprintf(death,"DATE OF BIRTH: %s",person.dateofbirth);
+	fprintf(death,"\n");
+	fprintf(death,"GENDER: %s",person.gender);
+	fprintf(death,"\n");
+	fprintf(death,"RELIGION: %s",person.religion);
+	fprintf(death,"\n");
+	fprintf(death,"PLACE OF DEATH: %s",person.dt.placeofdeath);
+	fprintf(death,"\n");
+	fprintf(death,"DATE OF DEATH: %s",person.dt.dateofdeath);
+	fprintf(death,"\n");
+	fprintf(death,"DATE OF BURIAL: %s",person.dt.dateofburial);
+	fprintf(death,"\n");
+	fprintf(death,"GRAVEYARD NAME: %s",person.dt.graveyard);
+	fprintf(death,"\n");
+	fprintf(death,"ENTRY DATE: %s",person.dt.entrydate);
+	fprintf(death,"\n");
+	fprintf(death,"ISSUE DATE: %s",person.issuedate);
+	fprintf(death,"\n");
+	fprintf(death,"ADDITIONAL INFORMATION: %s",person.dt.addinfo);
+	fprintf(death,"\nForm Number: %d \n",count_death);
+	fprintf(death,"\n\n");
+	fprintf(death,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(death,"_____________________________________________\n");
+	fclose(death);
+	FILE * death_s;
+	strcpy(person.id_cat,person.identitynumber);
+	strcat(person.id_cat,"death");
+	death_s=fopen(person.id_cat,"a");
+	fprintf(death_s,"_____________________________________________\n");
+	fprintf(death_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(death_s,"\t   GOVERNMENT OF PAKISTAN\n\n");
+	fprintf(death_s," ");
+	fprintf(death_s," ");
+	fprintf(death_s," ");
+	fprintf(death_s," ");
+	fprintf(death_s,"\t    death_s CERTIFICATE\n");
+	fprintf(death_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(death_s,"CRMS: %s",person.dt.crms);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"FORM NO: %s",person.dt.formnumber);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"NATURE OF death_s: %s",person.dt.nature);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"APPLICANT NAME: %s",person.applicantname);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"APPLICANT CNIC: %s",person.applicantcnic);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"RELATION WITH DECEASED: %s",person.relation);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"ADDRESS: HOUSE#: %s",person.dt.housenumber);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"CITY: %s",person.dt.city);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"TEHSIL: %s",person.dt.tehsil);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DISTRICT: %s",person.district);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DECEASED NAME: %s",person.name);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DECEASED CNIC: %s",person.identitynumber);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"FATHER NAME: %s",person.fathername);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DATE OF BIRTH: %s",person.dateofbirth);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"GENDER: %s",person.gender);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"RELIGION: %s",person.religion);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"PLACE OF death_s: %s",person.dt.placeofdeath);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DATE OF death_s: %s",person.dt.dateofdeath);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"DATE OF BURIAL: %s",person.dt.dateofburial);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"GRAVEYARD NAME: %s",person.dt.graveyard);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"ENTRY DATE: %s",person.dt.entrydate);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"ISSUE DATE: %s",person.issuedate);
+	fprintf(death_s,"\n");
+	fprintf(death_s,"ADDITIONAL INFORMATION: %s",person.dt.addinfo);
+	fprintf(death_s,"\nForm Number: %d \n",count_death);
+	fprintf(death_s,"\n\n");
+	fprintf(death_s,"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n");
+	fprintf(death_s,"_____________________________________________\n");
+	fclose(death_s);
+
+}
+void search() {
+	FILE*search;
+	printf("Enter the ID you want to search\n");
+	fflush(stdin);
+	gets(person.id_ask);
+	search=fopen(person.id_ask,"r");
+	if(search==NULL) {
+		printf("ID Not registered\n");
+	} else {
+		while(fgets(person.cpy,100,search)!=NULL) {
+			printf("%s",person.cpy);
+		}
+	}
+}
+void search_specific_id() {
+	FILE *search=NULL;
+	int c;
+	system("cls");
+	printf("Select from following options:\n1.National Identity Card(NIC)\n2.Smart National Identity Card(SNIC)\n3.Birth certificate\n4.B-form\n5.NIC for Overseas Pakistanis(NICOP)\n6.Marriage Registeration Certificate\n7.Divorce Registeration Certificate\n8.Juvenile Card\n9.Vaccination Card\n10.Death Certificate\n11.Exit\n");
+	scanf("%d",&c);
+	system("cls");
+	switch (c) {
+		case 1:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"nic"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 2:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"snic"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 3:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"birth"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 4:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"bform"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 5:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"nicop"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 6:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"m"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 7:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"d"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 8:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"juvenile"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 9:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"vaccine"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 10:
+			printf("Enter the ID you want to search\n");
+			fflush(stdin);
+			gets(person.id_ask);
+			search=fopen(strcat(person.id_ask,"death"),"r");
+			if(search==NULL) {
+				printf("ID not registered\n");
+			} else {
+				while(fgets(person.cpy,100,search)!=NULL)
+					printf("%s",person.cpy);
+			}
+			break;
+		case 11:
+			exit (1);
+	}
+}
+void search_specific_comp() {
+	system("cls");
+	printf("Enter the ID you want to search\n");
+	fflush(stdin);
+	gets(person.id_ask);
+	FILE*ssc;
+	ssc=fopen(strcat(person.id_ask,"complaint"),"r");
+	if(ssc==NULL)
+		printf("ID not registered\n");
+	else {
+		while(fgets(person.cpy,100,ssc)!=NULL)
+			printf("%s",person.cpy);
+	}
+
+}
+
+void frc() {
+	printf("Enter ID of the Parent(father)/Guradian\n");
+	fflush(stdin);
+	gets(person.FRC);
+	FILE* frc=NULL;
+	frc=fopen(strcat(person.FRC,"frc"),"r");
+	if(frc==NULL)
+		printf("No record found\n");
+	else {
+		while(fgets(person.cpy,100,frc)!=NULL)
+			printf("%s",person.cpy);
+	}
+}
+
+void namecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.name); i++) {
+		if( isalpha(person.name[i])||person.name[i]==' ') { 
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.name)) {
+		do {
+			counter=0;
+			printf("enter name again(alphabets only):");
+			gets(person.name);
+			for(i=0; i<strlen(person.name); i++) {
+				if(isalpha(person.name[i])||person.name[i]==' ') { 
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.name));
+	}
+}
+void fnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.fathername); i++) {
+		if(isalpha(person.fathername[i])||person.fathername[i]==' ') { /*||name[i]>=97||name[i]<='122'||name[i]=='32'*/
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.fathername)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.fathername);
+			for(i=0; i<strlen(person.fathername); i++) {
+				if(isalpha(person.fathername[i])||person.fathername[i]==' ') { /*||name[i]>=97||name[i]<='122'||name[i]=='32'*/
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.fathername));
+	}
+}
+void gendercheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.gender); i++) {
+		if(isalpha(person.gender[i])||person.gender[i]==' ') { /*||name[i]>=97||name[i]<='122'||name[i]=='32'*/
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.gender)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.gender);
+			for(i=0; i<strlen(person.gender); i++) {
+				if(isalpha(person.gender[i])||person.gender[i]==' ') { /*||name[i]>=97||name[i]<='122'||name[i]=='32'*/
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.gender));
+	}
+}
+void nationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.nationality); i++) {
+		if(isalpha(person.nationality[i])||person.nationality[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.nationality)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.nationality);
+			for(i=0; i<strlen(person.nationality); i++) {
+				if(isalpha(person.nationality[i])||person.nationality[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.nationality));
+	}
+}
+void religioncheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.religion); i++) {
+		if(isalpha(person.religion[i])||person.religion[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.religion)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.religion);
+			for(i=0; i<strlen(person.religion); i++) {
+				if(isalpha(person.religion[i])||person.religion[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.religion));
+	}
+}
+void bmarkcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.birthmark); i++) {
+		if(isalpha(person.birthmark[i])||person.birthmark[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.birthmark)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.birthmark);
+			for(i=0; i<strlen(person.birthmark); i++) {
+				if(isalpha(person.birthmark[i])||person.birthmark[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.birthmark));
+	}
+}
+
+void naturedeathcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.nature); i++) {
+		if(isalpha(person.dt.nature[i])||person.dt.nature[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.nature)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.nature);
+			for(i=0; i<strlen(person.dt.nature); i++) {
+				if(isalpha(person.dt.nature[i])||person.dt.nature[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.nature));
+	}
+
+}
+void appnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.applicantname); i++) {
+		if(isalpha(person.applicantname[i])||person.applicantname[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.applicantname)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.applicantname);
+			for(i=0; i<strlen(person.applicantname); i++) {
+				if(isalpha(person.applicantname[i])||person.applicantname[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.applicantname));
+	}
+
+}
+void relationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.relation); i++) {
+		if(isalpha(person.relation[i])||person.relation[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.relation)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.relation);
+			for(i=0; i<strlen(person.relation); i++) {
+				if(isalpha(person.relation[i])||person.relation[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.relation));
+	}
+
+}
+void citycheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.city); i++) {
+		if(isalpha(person.dt.city[i])||person.dt.city[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.city)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.city);
+			for(i=0; i<strlen(person.dt.city); i++) {
+				if(isalpha(person.dt.city[i])||person.dt.city[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.city));
+	}
+}
+void tehsilcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.tehsil); i++) {
+		if(isalpha(person.dt.tehsil[i])||person.dt.tehsil[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.tehsil)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.tehsil);
+			for(i=0; i<strlen(person.dt.tehsil); i++) {
+				if(isalpha(person.dt.tehsil[i])||person.dt.tehsil[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.tehsil));
+	}
+}
+void districtcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.district); i++) {
+		if(isalpha(person.district[i])||person.district[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.district)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.district);
+			for(i=0; i<strlen(person.district); i++) {
+				if(isalpha(person.district[i])||person.district[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.district));
+	}
+}
+void deathplacecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.placeofdeath); i++) {
+		if(isalpha(person.dt.placeofdeath[i])||person.dt.placeofdeath[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.placeofdeath)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.placeofdeath);
+			for(i=0; i<strlen(person.dt.placeofdeath); i++) {
+				if(isalpha(person.dt.placeofdeath[i])||person.dt.placeofdeath[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.placeofdeath));
+	}
+}
+void graveyardcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.graveyard); i++) {
+		if(isalpha(person.dt.graveyard[i])||person.dt.graveyard[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.graveyard)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.graveyard);
+			for(i=0; i<strlen(person.dt.graveyard); i++) {
+				if(isalpha(person.dt.graveyard[i])||person.dt.graveyard[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.graveyard));
+	}
+}
+void addinfocheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.dt.addinfo); i++) {
+		if(isalpha(person.dt.addinfo[i])||person.dt.addinfo[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.addinfo)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.dt.addinfo);
+			for(i=0; i<strlen(person.dt.addinfo); i++) {
+				if(isalpha(person.dt.addinfo[i])||person.dt.addinfo[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.dt.addinfo));
+	}
+}
+void mnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.mothername); i++) {
+		if(isalpha(person.mothername[i])||person.mothername[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.mothername)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.mothername);
+			for(i=0; i<strlen(person.mothername); i++) {
+				if(isalpha(person.mothername[i])||person.mothername[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.mothername));
+	}
+}
+void fnationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.bc.fathernationality); i++) {
+		if(isalpha(person.bc.fathernationality[i])||person.bc.fathernationality[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.bc.fathernationality)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.bc.fathernationality);
+			for(i=0; i<strlen(person.bc.fathernationality); i++) {
+				if(isalpha(person.bc.fathernationality[i])||person.bc.fathernationality[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.bc.fathernationality));
+	}
+}
+void mnationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.bc.mothernationality); i++) {
+		if(isalpha(person.bc.mothernationality[i])||person.bc.mothernationality[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.bc.mothernationality)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.bc.mothernationality);
+			for(i=0; i<strlen(person.bc.mothernationality); i++) {
+				if(isalpha(person.bc.mothernationality[i])||person.bc.mothernationality[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.bc.mothernationality));
+	}
+}
+void gnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.bc.grandfathername); i++) {
+		if(isalpha(person.bc.grandfathername[i])||person.bc.grandfathername[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.bc.grandfathername)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.bc.grandfathername);
+			for(i=0; i<strlen(person.bc.grandfathername); i++) {
+				if(isalpha(person.bc.grandfathername[i])||person.bc.grandfathername[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.bc.grandfathername));
+	}
+}
+void disabilitycheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.bf.disability); i++) {
+		if(isalpha(person.bf.disability[i])||person.bf.disability[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.bf.disability)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.bf.disability);
+			for(i=0; i<strlen(person.bf.disability); i++) {
+				if(isalpha(person.bf.disability[i])||person.bf.disability[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.bf.disability));
+	}
+}
+void staycheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.op.country); i++) {
+		if(isalpha(person.op.country[i])||person.op.country[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.op.country)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.op.country);
+			for(i=0; i<strlen(person.op.country); i++) {
+				if(isalpha(person.op.country[i])||person.op.country[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.op.country));
+	}
+}
+void center1check() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.vacc.center1); i++) {
+		if(isalpha(person.vacc.center1[i])||person.vacc.center1[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.vacc.center1)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.vacc.center1);
+			for(i=0; i<strlen(person.vacc.center1); i++) {
+				if(isalpha(person.vacc.center1[i])||person.vacc.center1[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.vacc.center1));
+	}
+}
+void center2check() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.vacc.center2); i++) {
+		if(isalpha(person.vacc.center2[i])||person.vacc.center2[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.vacc.center2)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.vacc.center2);
+			for(i=0; i<strlen(person.vacc.center2); i++) {
+				if(isalpha(person.vacc.center2[i])||person.vacc.center2[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.vacc.center2));
+	}
+}
+void vname1check() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.vacc.nameofVac1); i++) {
+		if(isalpha(person.vacc.nameofVac1[i])||person.vacc.nameofVac1[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.vacc.nameofVac1)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.vacc.nameofVac1);
+			for(i=0; i<strlen(person.vacc.nameofVac1); i++) {
+				if(isalpha(person.vacc.nameofVac1[i])||person.vacc.nameofVac1[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.vacc.nameofVac1));
+	}
+}
+void vname2check() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.vacc.nameofVac2); i++) {
+		if(isalpha(person.vacc.nameofVac2[i])||person.vacc.nameofVac2[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.vacc.nameofVac2)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.vacc.nameofVac2);
+			for(i=0; i<strlen(person.vacc.nameofVac2); i++) {
+				if(isalpha(person.vacc.nameofVac2[i])||person.vacc.nameofVac2[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.vacc.nameofVac2));
+	}
+}
+void grnamecheck()
+
+{
+
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.name_g); i++) {
+		if(isalpha(person.md.name_g[i])||person.md.name_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.name_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.name_g);
+			for(i=0; i<strlen(person.md.name_g); i++) {
+				if(isalpha(person.md.name_g[i])||person.md.name_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.name_g));
+	}
+
+}
+void bnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.name_b); i++) {
+		if(isalpha(person.md.name_b[i])||person.md.name_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.name_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.name_b);
+			for(i=0; i<strlen(person.md.name_b); i++) {
+				if(isalpha(person.md.name_b[i])||person.md.name_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.name_b));
+	}
+}
+void grnationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.nat_g); i++) {
+		if(isalpha(person.md.nat_g[i])||person.md.nat_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.nat_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.nat_g);
+			for(i=0; i<strlen(person.md.nat_g); i++) {
+				if(isalpha(person.md.nat_g[i])||person.md.nat_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.nat_g));
+	}
+
+}
+void bnationcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.nat_b); i++) {
+		if(isalpha(person.md.nat_b[i])||person.md.nat_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.nat_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.nat_b);
+			for(i=0; i<strlen(person.md.nat_b); i++) {
+				if(isalpha(person.md.nat_b[i])||person.md.nat_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.nat_b));
+	}
+}
+void grreligioncheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.rel_g); i++) {
+		if(isalpha(person.md.rel_g[i])||person.md.rel_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.rel_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.rel_g);
+			for(i=0; i<strlen(person.md.rel_g); i++) {
+				if(isalpha(person.md.rel_g[i])||person.md.rel_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.rel_g));
+	}
+}
+void breligioncheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.rel_b); i++) {
+		if(isalpha(person.md.rel_b[i])||person.md.rel_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.rel_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.rel_b);
+			for(i=0; i<strlen(person.md.rel_b); i++) {
+				if(isalpha(person.md.rel_b[i])||person.md.rel_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.rel_b));
+	}
+}
+void grfnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.fname_g); i++) {
+		if(isalpha(person.md.fname_g[i])||person.md.fname_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.fname_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.fname_g);
+			for(i=0; i<strlen(person.md.fname_g); i++) {
+				if(isalpha(person.md.fname_g[i])||person.md.fname_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.fname_g));
+	}
+}
+void bfnamecheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.fname_b); i++) {
+		if(isalpha(person.md.fname_b[i])||person.md.fname_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.fname_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.fname_b);
+			for(i=0; i<strlen(person.md.fname_b); i++) {
+				if(isalpha(person.md.fname_b[i])||person.md.fname_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.fname_b));
+	}
+}
+void grdistrictcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.dist_g); i++) {
+		if(isalpha(person.md.dist_g[i])||person.md.dist_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.dist_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.dist_g);
+			for(i=0; i<strlen(person.md.dist_g); i++) {
+				if(isalpha(person.md.dist_g[i])||person.md.dist_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.dist_g));
+	}
+}
+void bdistrictcheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.dist_b); i++) {
+		if(isalpha(person.md.dist_b[i])||person.md.dist_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.dist_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.dist_b);
+			for(i=0; i<strlen(person.md.dist_b); i++) {
+				if(isalpha(person.md.dist_b[i])||person.md.dist_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.dist_b));
+	}
+}
+void grstatuscheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.martials_g); i++) {
+		if(isalpha(person.md.martials_g[i])||person.md.martials_g[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.martials_g)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.martials_g);
+			for(i=0; i<strlen(person.md.martials_g); i++) {
+				if(isalpha(person.md.martials_g[i])||person.md.martials_g[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.martials_g));
+	}
+}
+void bstatuscheck() {
+	int i,j,k,counter=0;
+	for(i=0; i<strlen(person.md.martials_b); i++) {
+		if(isalpha(person.md.martials_b[i])||person.md.martials_b[i]==' ') {
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.md.martials_b)) {
+		do {
+			counter=0;
+			printf("enter again(alphabets only):");
+			gets(person.md.martials_b);
+			for(i=0; i<strlen(person.md.martials_b); i++) {
+				if(isalpha(person.md.martials_b[i])||person.md.martials_b[i]==' ') {
+					counter++;
+				}
+			}
+		} while(counter!=strlen(person.md.martials_b));
+	}
+}
+
+
+
+void Identity(char province[],char grandfathername[],char fathername[],char mothername[],char name[],char religion[],char gender[]) {
+	char id[7]= {0};
+	int i;
+
+	if(strcmpi(person.province,"kpk")==0||strcmpi(person.province,"kyber pakhtunkhwa")==0) {
+		id[0]='0'+1;
+	} else if(strcmpi(person.province,"FATA")==0) {
+		id[0]='0'+2;
+	} else if(strcmpi(person.province,"punjab")==0) {
+		id[0]='0'+3;
+	} else if(strcmpi(person.province,"sindh")==0) {
+		id[0]='0'+4;
+	} else if(strcmpi(person.province,"balochistan")==0|| strcmpi(person.province,"baluchistan")==0) {
+		id[0]='0'+5;
+	} else if(strcmpi(person.province,"islamabad")==0) {
+		id[0]='0'+6;
+	} else if(strcmpi(person.province,"gilgit")==0 || strcmpi(person.province,"gilgit/baltistan")==0|| strcmpi(person.province,"baltistan")==0) {
+		id[0]='0'+7;
+	} else {
+
+	}
+
+
+	if(strlen(person.bf.grandfathername)>=10) {
+		id[1]='0'+(strlen(person.bf.grandfathername)%10);
+	} else {
+		id[1]='0'+strlen(person.bf.grandfathername);
+	}
+
+	if(strlen(person.fathername)>=10) {
+		id[2]='0'+(strlen(person.fathername)%10);
+	} else {
+		id[2]='0'+strlen(person.fathername);
+	}
+
+	if(strlen(person.fathername)>=10) {
+		id[3]='0'+(strlen(person.mothername)%10);
+	} else {
+		id[3]='0'+strlen(person.mothername);
+	}
+
+	if(	strlen(person.name)>=10) {
+		id[4]='0'+(strlen(person.name)%10);
+	} else {
+		id[4]='0'+strlen(person.name);
+	}
+
+
+	if(strcmpi(person.religion,"islam")==0) {
+		id[5]='0'+1;
+	} else if (strcmpi(person.religion,"hindu")==0||strcmpi(person.religion,"hinduism")==0) {
+		id[5]='0'+2;
+	} else if (strcmpi(person.religion,"christian")==0||strcmpi(person.religion,"christianity")==0) {
+		id[5]='0'+3;
+	} else if (strcmpi(person.religion,"ahmadi")==0||strcmpi(person.religion,"ahmadiyah")==0) {
+		id[5]='0'+4;
+	} else {
+		id[5]='0'+5;
+	}
+
+	if(strcmpi(person.gender,"male")==0) {
+		id[6]=1+'0';
+	} else {
+		id[6]=2+'0';
+	}
+	memset(person.bf.nic,0,sizeof(person.bf.nic));
+	strcpy(person.bf.nic,id);
+	for(i=0; i<7; i++) {
+		fflush(stdin);
+		printf("%c",person.bf.nic[i]);
+	}
+	printf("\n");
+
+}
+void idcheck() {
+	int i,j,k,counter=0,check=0;
+	FILE *idcheck;
+	idcheck=fopen(person.identitynumber,"r");
+	for(i=0; i<strlen(person.identitynumber); i++) {
+		if(person.identitynumber[i]=='0'||person.identitynumber[i]=='1'||person.identitynumber[i]=='2'||person.identitynumber[i]=='3'||person.identitynumber[i]=='4'||person.identitynumber[i]=='5'||person.identitynumber[i]=='6'||person.identitynumber[i]=='7'||person.identitynumber[i]=='8'||person.identitynumber[i]=='9') {
+			counter++;
+		}
+	}
+	if(strlen(person.identitynumber)!=7) {
+		check++;
+		printf("Invalid format.");
+	} else if(idcheck==NULL) {
+		printf("Id not found.");
+		check++;
+	} else if(person.identitynumber[0]=='8'||person.identitynumber[0]=='9'||person.identitynumber[0]=='0') {
+		check++;
+	}
+	if(counter!=strlen(person.identitynumber)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.identitynumber);
+			idcheck=fopen(person.identitynumber,"r");
+			for(i=0; i<strlen(person.identitynumber); i++) {
+				if(person.identitynumber[i]=='0'||person.identitynumber[i]=='1'||person.identitynumber[i]=='2'||person.identitynumber[i]=='3'||person.identitynumber[i]=='4'||person.identitynumber[i]=='5'||person.identitynumber[i]=='6'||person.identitynumber[i]=='7'||person.identitynumber[i]=='8'||person.identitynumber[i]=='9') {
+					counter++;
+				}
+			}
+			if(strlen(person.identitynumber)!=7) {
+				check++;
+				printf("Invalid format.");
+			} else if(idcheck==NULL) {
+				printf("Id not found.");
+				check++;
+			} else if(person.identitynumber[0]=='8'||person.identitynumber[0]=='9'||person.identitynumber[0]=='0') {
+				check++;
+			}
+
+		} while(counter!=strlen(person.identitynumber)||check!=0);
+	}
+
+}
+void idcheckgr() {
+	int i,j,k,counter=0,check=0;
+	FILE *idcheck;
+	idcheck=fopen(person.md.cnic_g,"r");
+	for(i=0; i<strlen(person.md.cnic_g); i++) {
+		if(person.md.cnic_g[i]=='0'||person.md.cnic_g[i]=='1'||person.md.cnic_g[i]=='2'||person.md.cnic_g[i]=='3'||person.md.cnic_g[i]=='4'||person.md.cnic_g[i]=='5'||person.md.cnic_g[i]=='6'||person.md.cnic_g[i]=='7'||person.md.cnic_g[i]=='8'||person.md.cnic_g[i]=='9'||person.md.cnic_g[i]=='0') {
+			counter++;
+		}
+	}
+	if(strlen(person.md.cnic_g)!=7) {
+		check++;
+		printf("Invalid format.");
+	} else if(idcheck==NULL) {
+		printf("Id not found.");
+		check++;
+	} else if(person.md.cnic_g[0]=='8'||person.md.cnic_g[0]=='9'||person.md.cnic_g[0]=='0') {
+		check++;
+	}
+
+	if(counter!=strlen(person.md.cnic_g)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.md.cnic_g);
+			idcheck=fopen(person.md.cnic_g,"r");
+			for(i=0; i<strlen(person.md.cnic_g); i++) {
+				if(person.md.cnic_g[i]=='0'||person.md.cnic_g[i]=='1'||person.md.cnic_g[i]=='2'||person.md.cnic_g[i]=='3'||person.md.cnic_g[i]=='4'||person.md.cnic_g[i]=='5'||person.md.cnic_g[i]=='6'||person.md.cnic_g[i]=='7'||person.md.cnic_g[i]=='8'||person.md.cnic_g[i]=='9'||person.md.cnic_g[i]=='0') {
+					counter++;
+				}
+			}
+			if(strlen(person.md.cnic_g)!=7) {
+				check++;
+				printf("Invalid format.");
+			} else if(idcheck==NULL) {
+				printf("Id not found.");
+				check++;
+			} else if(person.md.cnic_g[0]=='8'||person.md.cnic_g[0]=='9'||person.md.cnic_g[0]=='0') {
+				check++;
+			}
+
+		} while(counter!=strlen(person.md.cnic_g)||check!=0);
+	}
+
+}
+void idcheckbr() {
+	int i,j,k,counter=0,check=0;
+	FILE *idcheck;
+	idcheck=fopen(person.md.cnic_b,"r");
+	for(i=0; i<strlen(person.md.cnic_b); i++) {
+		if(person.md.cnic_b[i]=='0'||person.md.cnic_b[i]=='1'||person.md.cnic_b[i]=='2'||person.md.cnic_b[i]=='3'||person.md.cnic_b[i]=='4'||person.md.cnic_b[i]=='5'||person.md.cnic_b[i]=='6'||person.md.cnic_b[i]=='7'||person.md.cnic_b[i]=='8'||person.md.cnic_b[i]=='9'||person.md.cnic_b[i]=='0') {
+			counter++;
+		}
+	}
+	if(strlen(person.md.cnic_b)!=7) {
+		check++;
+		printf("Invalid format.");
+	} else if(idcheck==NULL) {
+		printf("id not found.");
+		check++;
+	} else if(person.md.cnic_b[0]=='8'||person.md.cnic_b[0]=='9'||person.md.cnic_b[0]=='0') {
+		check++;
+	}
+
+	if(counter!=strlen(person.md.cnic_b)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.md.cnic_b);
+			idcheck=fopen(person.md.cnic_b,"r");
+			for(i=0; i<strlen(person.md.cnic_b); i++) {
+				if(person.md.cnic_b[i]=='0'||person.md.cnic_b[i]=='1'||person.md.cnic_b[i]=='2'||person.md.cnic_b[i]=='3'||person.md.cnic_b[i]=='4'||person.md.cnic_b[i]=='5'||person.md.cnic_b[i]=='6'||person.md.cnic_b[i]=='7'||person.md.cnic_b[i]=='8'||person.md.cnic_b[i]=='9'||person.md.cnic_b[i]=='0') {
+					counter++;
+				}
+			}
+			if(strlen(person.md.cnic_b)!=7) {
+				check++;
+				printf("Invalid format.");
+			} else if(idcheck==NULL) {
+				printf("id not found.");
+				check++;
+			} else if(person.md.cnic_b[0]=='8'||person.md.cnic_b[0]=='9'||person.md.cnic_b[0]=='0') {
+				check++;
+			}
+
+		} while(counter!=strlen(person.md.cnic_b)||check!=0);
+	}
+
+}
+void idcheckfather() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.fathercnic); i++) {
+		if(person.fathercnic[i]=='0'||person.fathercnic[i]=='1'||person.fathercnic[i]=='2'||person.fathercnic[i]=='3'||person.fathercnic[i]=='4'||person.fathercnic[i]=='5'||person.fathercnic[i]=='6'||person.fathercnic[i]=='7'||person.fathercnic[i]=='8'||person.fathercnic[i]=='9')			{
+			counter++;
+		}
+	}
+	if(strlen(person.fathercnic)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.fathercnic)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.fathercnic);
+			for(i=0; i<strlen(person.fathercnic); i++) {
+
+				if(person.fathercnic[i]=='0'||person.fathercnic[i]=='1'||person.fathercnic[i]=='2'||person.fathercnic[i]=='3'||person.fathercnic[i]=='4'||person.fathercnic[i]=='5'||person.fathercnic[i]=='6'||person.fathercnic[i]=='7'||person.fathercnic[i]=='8'||person.fathercnic[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.fathercnic)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.fathercnic)||check!=0);
+	}
+}
+void idcheckmother() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.mothercnic); i++) {
+		if(person.mothercnic[i]=='0'||person.mothercnic[i]=='1'||person.mothercnic[i]=='2'||person.mothercnic[i]=='3'||person.mothercnic[i]=='4'||person.mothercnic[i]=='5'||person.mothercnic[i]=='6'||person.mothercnic[i]=='7'||person.mothercnic[i]=='8'||person.mothercnic[i]=='9') {
+			counter++;
+		}
+	}
+	if(strlen(person.mothercnic)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.mothercnic)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.mothercnic);
+			for(i=0; i<strlen(person.mothercnic); i++) {
+
+				if(person.mothercnic[i]=='0'||person.mothercnic[i]=='1'||person.mothercnic[i]=='2'||person.mothercnic[i]=='3'||person.mothercnic[i]=='4'||person.mothercnic[i]=='5'||person.mothercnic[i]=='6'||person.mothercnic[i]=='7'||person.mothercnic[i]=='8'||person.mothercnic[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.mothercnic)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.mothercnic)||check!=0);
+	}
+}
+void idcheckgd() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.bc.grandfathercnic); i++) {
+		if(person.bc.grandfathercnic[i]=='0'||person.bc.grandfathercnic[i]=='1'||person.bc.grandfathercnic[i]=='2'||person.bc.grandfathercnic[i]=='3'||person.bc.grandfathercnic[i]=='4'||person.bc.grandfathercnic[i]=='5'||person.bc.grandfathercnic[i]=='6'||person.mothercnic[i]=='7'||person.mothercnic[i]=='8'||person.mothercnic[i]=='9') {
+			counter++;
+		}
+	}
+	if(strlen(person.bc.grandfathercnic)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.bc.grandfathercnic)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.bc.grandfathercnic);
+			for(i=0; i<strlen(person.bc.grandfathercnic); i++) {
+
+				if(person.bc.grandfathercnic[i]=='0'||person.bc.grandfathercnic[i]=='1'||person.bc.grandfathercnic[i]=='2'||person.bc.grandfathercnic[i]=='3'||person.bc.grandfathercnic[i]=='4'||person.bc.grandfathercnic[i]=='5'||person.bc.grandfathercnic[i]=='6'||person.bc.grandfathercnic[i]=='7'||person.bc.grandfathercnic[i]=='8'||person.bc.grandfathercnic[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.bc.grandfathercnic)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.bc.grandfathercnic)||check!=0);
+	}
+}
+void idcheckapp() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.applicantcnic); i++) {
+		if(person.applicantcnic[i]=='0'||person.applicantcnic[i]=='1'||person.applicantcnic[i]=='2'||person.applicantcnic[i]=='3'||person.applicantcnic[i]=='4'||person.applicantcnic[i]=='5'||person.applicantcnic[i]=='6'||person.applicantcnic[i]=='7'||person.applicantcnic[i]=='8'||person.applicantcnic[i]=='9') {
+			counter++;
+		}
+	}
+	if(strlen(person.applicantcnic)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.applicantcnic)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.applicantcnic);
+			for(i=0; i<strlen(person.applicantcnic); i++) {
+
+				if(person.applicantcnic[i]=='0'||person.applicantcnic[i]=='1'||person.applicantcnic[i]=='2'||person.applicantcnic[i]=='3'||person.applicantcnic[i]=='4'||person.applicantcnic[i]=='5'||person.applicantcnic[i]=='6'||person.applicantcnic[i]=='7'||person.applicantcnic[i]=='8'||person.applicantcnic[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.applicantcnic)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.applicantcnic)||check!=0);
+	}
+}
+void idcheckfgr() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.md.fcnic_g); i++) {
+		if(person.md.fcnic_g[i]=='0'||person.md.fcnic_g[i]=='1'||person.md.fcnic_g[i]=='2'||person.md.fcnic_g[i]=='3'||person.md.fcnic_g[i]=='4'||person.md.fcnic_g[i]=='5'||person.md.fcnic_g[i]=='6'||person.md.fcnic_g[i]=='7'||person.md.fcnic_g[i]=='8'||person.md.fcnic_g[i]=='9')			{
+			counter++;
+		}
+	}
+	if(strlen(person.md.fcnic_g)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.md.fcnic_g)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.md.fcnic_g);
+			for(i=0; i<strlen(person.md.fcnic_g); i++) {
+
+				if(person.md.fcnic_g[i]=='0'||person.md.fcnic_g[i]=='1'||person.md.fcnic_g[i]=='2'||person.md.fcnic_g[i]=='3'||person.md.fcnic_g[i]=='4'||person.md.fcnic_g[i]=='5'||person.md.fcnic_g[i]=='6'||person.md.fcnic_g[i]=='7'||person.md.fcnic_g[i]=='8'||person.md.fcnic_g[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.md.fcnic_g)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.md.fcnic_g)||check!=0);
+	}
+}
+void idcheckfbr() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.md.fcnic_b); i++) {
+		if(person.md.fcnic_b[i]=='0'||person.md.fcnic_b[i]=='1'||person.md.fcnic_b[i]=='2'||person.md.fcnic_b[i]=='3'||person.md.fcnic_b[i]=='4'||person.md.fcnic_b[i]=='5'||person.md.fcnic_b[i]=='6'||person.md.fcnic_b[i]=='7'||person.md.fcnic_b[i]=='8'||person.md.fcnic_b[i]=='9')			{
+			counter++;
+		}
+	}
+	if(strlen(person.md.fcnic_b)!=7) {
+		check++;
+		printf("Invalid format.");
+	}
+
+	if(counter!=strlen(person.md.fcnic_b)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nID:");
+			gets(person.md.fcnic_b);
+			for(i=0; i<strlen(person.md.fcnic_b); i++) {
+
+				if(person.md.fcnic_b[i]=='0'||person.md.fcnic_b[i]=='1'||person.md.fcnic_b[i]=='2'||person.md.fcnic_b[i]=='3'||person.md.fcnic_b[i]=='4'||person.md.fcnic_b[i]=='5'||person.md.fcnic_b[i]=='6'||person.md.fcnic_b[i]=='7'||person.md.fcnic_b[i]=='8'||person.md.fcnic_b[i]=='9') {
+					counter++;
+				}
+
+			}
+			if(strlen(person.md.fcnic_b)!=7) {
+				check++;
+				printf("invalid format.");
+			}
+
+		} while(counter!=strlen(person.md.fcnic_b)||check!=0);
+	}
+}
+void crmscheck() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.dt.crms); i++) {
+		if(person.dt.crms[i]=='0'||person.dt.crms[i]=='1'||person.dt.crms[i]=='2'||person.dt.crms[i]=='3'||person.dt.crms[i]=='4'||person.dt.crms[i]=='5'||person.dt.crms[i]=='6'||person.dt.crms[i]=='7'||person.dt.crms[i]=='8'||person.dt.crms[i]=='9')			{
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.crms)) {
+		do {
+
+			counter=0;
+			printf("\nEnter again\nCRMS (numbers only):");
+			gets(person.dt.crms);
+			for(i=0; i<strlen(person.dt.crms); i++) {
+
+				if(person.dt.crms[i]=='0'||person.dt.crms[i]=='1'||person.dt.crms[i]=='2'||person.dt.crms[i]=='3'||person.dt.crms[i]=='4'||person.dt.crms[i]=='5'||person.dt.crms[i]=='6'||person.dt.crms[i]=='7'||person.dt.crms[i]=='8'||person.dt.crms[i]=='9')			{
+					counter++;
+				}
+
+			}
+
+		} while(counter!=strlen(person.dt.crms));
+	}
+}
+void formnocheck() {
+	int i,j,k,counter=0,check=0;
+
+	for(i=0; i<strlen(person.dt.formnumber); i++) {
+		if(person.dt.formnumber[i]=='0'||person.dt.formnumber[i]=='1'||person.dt.formnumber[i]=='2'||person.dt.formnumber[i]=='3'||person.dt.formnumber[i]=='4'||person.dt.formnumber[i]=='5'||person.dt.formnumber[i]=='6'||person.dt.formnumber[i]=='7'||person.dt.formnumber[i]=='8'||person.dt.formnumber[i]=='9')			{
+			counter++;
+		}
+	}
+	if(counter!=strlen(person.dt.formnumber)) {
+		counter=0;
+		do {
+
+			counter=0;
+			printf("\nEnter again\nForm number (numbers only):");
+			gets(person.dt.formnumber);
+			for(i=0; i<strlen(person.dt.formnumber); i++) {
+				if(person.dt.formnumber[i]=='0'||person.dt.formnumber[i]=='1'||person.dt.formnumber[i]=='2'||person.dt.formnumber[i]=='3'||person.dt.formnumber[i]=='4'||person.dt.formnumber[i]=='5'||person.dt.formnumber[i]=='6'||person.dt.formnumber[i]=='7'||person.dt.formnumber[i]=='8'||person.dt.formnumber[i]=='9')			{
+					counter++;
+				}
+			}
+
+		} while(counter!=strlen(person.dt.crms));
+	}
+}
+void issuedatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.issuedate[2]!='-'||person.issuedate[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.issuedate[0]!='0'&&person.issuedate[0]!='1'&&person.issuedate[0]!='2'&&person.issuedate[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.issuedate[3]!='0'&&person.issuedate[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.issuedate[6]!='0'&&person.issuedate[6]!='1'&&person.issuedate[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nIssue date:");
+			gets(person.issuedate);
+
+			if(person.issuedate[2]!='-'||person.issuedate[5]!='-') {
+				check++;
+				printf("Invalid format.(dd-mm-yyyy) ");
+			} else if(person.issuedate[0]!='0'&&person.issuedate[0]!='1'&&person.issuedate[0]!='2'&&person.issuedate[0]!='3') {
+				check++;
+				printf("Invalid date.");
+			} else if(person.issuedate[3]!='0'&&person.issuedate[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.issuedate[6]!='0'&&person.issuedate[6]!='1'&&person.issuedate[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+
+}
+void birthdatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.dateofbirth[2]!='-'||person.dateofbirth[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.dateofbirth[0]!='0'&&person.dateofbirth[0]!='1'&&person.dateofbirth[0]!='2'&&person.dateofbirth[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.dateofbirth[3]!='0'&&person.dateofbirth[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.dateofbirth[6]!='0'&&person.dateofbirth[6]!='1'&&person.dateofbirth[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of birth:");
+			gets(person.dateofbirth);
+
+			if(person.dateofbirth[2]!='-'||person.dateofbirth[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.dateofbirth[0]!='0'&&person.dateofbirth[0]!='1'&&person.dateofbirth[0]!='2'&&person.dateofbirth[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.dateofbirth[3]!='0'&&person.dateofbirth[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.dateofbirth[6]!='0'&&person.dateofbirth[6]!='1'&&person.dateofbirth[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+
+}
+void gragecheck() {
+	int i,counter,check;
+	for(i=0; i<strlen(person.md.age_g); i++) {
+		if(person.md.age_g[i]=='0'||person.md.age_g[i]=='1'||person.md.age_g[i]=='2'||person.md.age_g[i]=='3'||person.md.age_g[i]=='4'||person.md.age_g[i]=='5'||person.md.age_g[i]=='6'||person.md.age_g[i]=='7'||person.md.age_g[i]=='8'||person.md.age_g[i]=='9')			{
+			counter++;
+		}
+	}
+	if(strlen(person.md.age_g)>3) {
+		check++;
+	}
+	if(counter!=strlen(person.md.age_g)||check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nEnter age again:");
+			gets(person.md.age_g);
+			for(i=0; i<strlen(person.md.age_g); i++) {
+				if(person.md.age_g[i]=='0'||person.md.age_g[i]=='1'||person.md.age_g[i]=='2'||person.md.age_g[i]=='3'||person.md.age_g[i]=='4'||person.md.age_g[i]=='5'||person.md.age_g[i]=='6'||person.md.age_g[i]=='7'||person.md.age_g[i]=='8'||person.md.age_g[i]=='9')			{
+					counter++;
+				}
+			}
+			if(strlen(person.md.age_g)>3) {
+				check++;
+			}
+		} while(counter!=strlen(person.md.fcnic_b)||check!=0);
+	}
+
+
+}
+
+void expirydatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.expirydate[2]!='-'||person.expirydate[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.expirydate[0]!='0'&&person.expirydate[0]!='1'&&person.expirydate[0]!='2'&&person.expirydate[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.expirydate[3]!='0'&&person.expirydate[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.expirydate[6]!='0'&&person.expirydate[6]!='1'&&person.expirydate[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of expiry:");
+			gets(person.expirydate);
+
+			if(person.expirydate[2]!='-'||person.expirydate[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.expirydate[0]!='0'&&person.expirydate[0]!='1'&&person.expirydate[0]!='2'&&person.expirydate[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.expirydate[3]!='0'&&person.expirydate[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.expirydate[6]!='0'&&person.expirydate[6]!='1'&&person.expirydate[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+void vac1datecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.vacc.dateofvac1[2]!='-'||person.vacc.dateofvac1[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.vacc.dateofvac1[0]!='0'&&person.vacc.dateofvac1[0]!='1'&&person.vacc.dateofvac1[0]!='2'&&person.vacc.dateofvac1[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.vacc.dateofvac1[3]!='0'&&person.vacc.dateofvac1[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.vacc.dateofvac1[6]!='0'&&person.vacc.dateofvac1[6]!='1'&&person.vacc.dateofvac1[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of vaccination 1:");
+			gets(person.vacc.dateofvac1);
+
+			if(person.vacc.dateofvac1[2]!='-'||person.vacc.dateofvac1[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.vacc.dateofvac1[0]!='0'&&person.vacc.dateofvac1[0]!='1'&&person.vacc.dateofvac1[0]!='2'&&person.vacc.dateofvac1[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.vacc.dateofvac1[3]!='0'&&person.vacc.dateofvac1[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.vacc.dateofvac1[6]!='0'&&person.vacc.dateofvac1[6]!='1'&&person.vacc.dateofvac1[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+void vac2datecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.vacc.dateofvac2[2]!='-'||person.vacc.dateofvac2[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.vacc.dateofvac2[0]!='0'&&person.vacc.dateofvac2[0]!='1'&&person.vacc.dateofvac2[0]!='2'&&person.vacc.dateofvac2[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.vacc.dateofvac2[3]!='0'&&person.vacc.dateofvac2[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.vacc.dateofvac2[6]!='0'&&person.vacc.dateofvac2[6]!='1'&&person.vacc.dateofvac2[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of vaccination 2:");
+			gets(person.vacc.dateofvac2);
+
+			if(person.vacc.dateofvac2[2]!='-'||person.vacc.dateofvac2[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.vacc.dateofvac2[0]!='0'&&person.vacc.dateofvac2[0]!='1'&&person.vacc.dateofvac2[0]!='2'&&person.vacc.dateofvac2[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.vacc.dateofvac2[3]!='0'&&person.vacc.dateofvac2[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.vacc.dateofvac2[6]!='0'&&person.vacc.dateofvac2[6]!='1'&&person.vacc.dateofvac2[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+void deathentrydatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.dt.entrydate[2]!='-'||person.dt.entrydate[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.dt.entrydate[0]!='0'&&person.dt.entrydate[0]!='1'&&person.dt.entrydate[0]!='2'&&person.dt.entrydate[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.dt.entrydate[3]!='0'&&person.dt.entrydate[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.dt.entrydate[6]!='0'&&person.dt.entrydate[6]!='1'&&person.dt.entrydate[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of entry:");
+			gets(person.dt.entrydate);
+
+			if(person.dt.entrydate[2]!='-'||person.dt.entrydate[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.dt.entrydate[0]!='0'&&person.dt.entrydate[0]!='1'&&person.dt.entrydate[0]!='2'&&person.dt.entrydate[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.dt.entrydate[3]!='0'&&person.dt.entrydate[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.dt.entrydate[6]!='0'&&person.dt.entrydate[6]!='1'&&person.dt.entrydate[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+void deathdatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.dt.dateofdeath[2]!='-'||person.dt.dateofdeath[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.dt.dateofdeath[0]!='0'&&person.dt.dateofdeath[0]!='1'&&person.dt.dateofdeath[0]!='2'&&person.dt.dateofdeath[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.dt.dateofdeath[3]!='0'&&person.dt.dateofdeath[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.dt.dateofdeath[6]!='0'&&person.dt.dateofdeath[6]!='1'&&person.dt.dateofdeath[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of death:");
+			fflush(stdin);
+			gets(person.dt.dateofdeath);
+
+			if(person.dt.dateofdeath[2]!='-'||person.dt.dateofdeath[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.dt.dateofdeath[0]!='0'&&person.dt.dateofdeath[0]!='1'&&person.dt.dateofdeath[0]!='2'&&person.dt.dateofdeath[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.dt.dateofdeath[3]!='0'&&person.dt.dateofdeath[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.dt.dateofdeath[6]!='0'&&person.dt.dateofdeath[6]!='1'&&person.dt.dateofdeath[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+void burialdatecheck() {
+	int i,j,k,counter=0,check=0;
+
+	if(person.dt.dateofburial[2]!='-'||person.dt.dateofburial[5]!='-') {
+		printf("Invalid format.(dd-mm-yyyy) ");
+		check++;
+	} else if(person.dt.dateofburial[0]!='0'&&person.dt.dateofburial[0]!='1'&&person.dt.dateofburial[0]!='2'&&person.dt.dateofburial[0]!='3') {
+		printf("Invalid date.");
+		check++;
+	} else if(person.dt.dateofburial[3]!='0'&&person.dt.dateofburial[3]!='1') {
+		printf("Invalid month.");
+		check++;
+	} else if(person.dt.dateofburial[6]!='0'&&person.dt.dateofburial[6]!='1'&&person.dt.dateofburial[6]!='2') {
+		check++;
+		printf("invalid year.");
+	}
+
+
+
+	if(check!=0) {
+		do {
+			check=0;
+			counter=0;
+			printf("\nDate of burial:");
+			gets(person.dt.dateofburial);
+
+			if(person.dt.dateofburial[2]!='-'||person.dt.dateofburial[5]!='-') {
+				printf("Invalid format.(dd-mm-yyyy) ");
+				check++;
+			} else if(person.dt.dateofburial[0]!='0'&&person.dt.dateofburial[0]!='1'&&person.dt.dateofburial[0]!='2'&&person.dt.dateofburial[0]!='3') {
+				printf("Invalid date.");
+				check++;
+			} else if(person.dt.dateofburial[3]!='0'&&person.dt.dateofburial[3]!='1') {
+				printf("Invalid month.");
+				check++;
+			} else if(person.dt.dateofburial[6]!='0'&&person.dt.dateofburial[6]!='1'&&person.dt.dateofburial[6]!='2') {
+				check++;
+				printf("invalid year.");
+			}
+
+
+
+		} while(check!=0);
+	}
+}
+
+int form_nic() {
+
+
+
+
+	FILE *f_n;
+
+	f_n=fopen("nic_counter.txt","r");
+
+	fscanf(f_n,"%d",&f.NIC.nnum);
+	++f.NIC.nnum;
+	fclose(f_n);
+
+	f_n=fopen("nic_counter.txt","w");
+
+	fprintf(f_n,"%d",f.NIC.nnum);
+	fclose(f_n);
+
+	return f.NIC.nnum;
+
+}
+
+
+
+int form_snic() {
+
+
+
+	FILE *f_sn;
+
+	f_sn=fopen("snic_counter.txt","r");
+
+	fscanf(f_sn,"%d",&f.SNIC.snum);
+	++f.SNIC.snum;
+	fclose(f_sn);
+
+	f_sn=fopen("snic_counter.txt","w");
+
+	fprintf(f_sn,"%d",f.SNIC.snum);
+	fclose(f_sn);
+
+	return f.SNIC.snum;
+
+}
+
+
+int form_birth() {
+
+
+
+	FILE *f_b;
+
+	f_b=fopen("birth_counter.txt","r");
+
+	fscanf(f_b,"%d",&f.BIRTH.bnum);
+	++f.BIRTH.bnum;
+	fclose(f_b);
+
+	f_b=fopen("birth_counter.txt","w");
+
+	fprintf(f_b,"%d",f.BIRTH.bnum);
+	fclose(f_b);
+
+	return f.BIRTH.bnum;
+}
+
+
+int form_bform() {
+
+
+
+	FILE *f_bf;
+
+	f_bf=fopen("bform_counter.txt","r");
+
+	fscanf(f_bf,"%d",&f.BFORM.bfnum);
+	++f.BFORM.bfnum;
+	fclose(f_bf);
+
+	f_bf=fopen("bform_counter.txt","w");
+
+	fprintf(f_bf,"%d",f.BFORM.bfnum);
+	fclose(f_bf);
+
+	return f.BFORM.bfnum;
+
+}
+
+
+
+int form_nicop() {
+
+
+	FILE *f_np;
+
+	f_np=fopen("nicop_counter.txt","r");
+
+	fscanf(f_np,"%d",&f.NICOP.Nnum);
+	++f.NICOP.Nnum;
+	fclose(f_np);
+
+	f_np=fopen("nicop_counter.txt","w");
+
+	fprintf(f_np,"%d",f.NICOP.Nnum);
+	fclose(f_np);
+
+	return f.NICOP.Nnum;
+
+
+}
+
+
+
+int form_marriage() {
+
+
+
+	FILE *f_m;
+
+	f_m=fopen("marriage_counter.txt","r");
+
+	fscanf(f_m,"%d",&f.MARRIAGE.Mnum);
+	++f.MARRIAGE.Mnum;
+	fclose(f_m);
+
+	f_m=fopen("marriage_counter.txt","w");
+
+	fprintf(f_m,"%d",f.MARRIAGE.Mnum);
+	fclose(f_m);
+
+	return f.MARRIAGE.Mnum;
+
+}
+
+
+
+int form_divorce() {
+
+
+
+	FILE *f_d;
+
+	f_d=fopen("divorce_counter.txt","r");
+
+	fscanf(f_d,"%d",&f.DIVORCE.Dnum);
+	++f.DIVORCE.Dnum;
+	fclose(f_d);
+
+	f_d=fopen("divorce_counter.txt","w");
+
+	fprintf(f_d,"%d",f.DIVORCE.Dnum);
+	fclose(f_d);
+
+	return f.DIVORCE.Dnum;
+
+}
+
+
+
+int form_juvenile() {
+
+
+
+
+	FILE *f_ju;
+
+	f_ju=fopen("juvenile_counter.txt","r");
+
+	fscanf(f_ju,"%d",&f.JUVENILE.Jnum);
+	++f.JUVENILE.Jnum;
+	fclose(f_ju);
+
+	f_ju=fopen("juvenile_counter.txt","w");
+
+	fprintf(f_ju,"%d",f.JUVENILE.Jnum);
+	fclose(f_ju);
+
+	return f.JUVENILE.Jnum;
+}
+
+
+int form_vaccine() {
+
+
+
+	FILE *f_vac;
+
+	f_vac=fopen("vaccine_counter.txt","r");
+
+	fscanf(f_vac,"%d",&f.VACCINE.Vnum);
+	++f.VACCINE.Vnum;
+	fclose(f_vac);
+
+	f_vac=fopen("vaccine_counter.txt","w");
+
+	fprintf(f_vac,"%d",f.VACCINE.Vnum);
+	fclose(f_vac);
+
+	return f.VACCINE.Vnum;
+
+}
+
+
+int form_death() {
+
+
+
+
+
+	FILE *f_dea;
+
+	f_dea=fopen("death_counter.txt","r");
+
+	fscanf(f_dea,"%d",&f.DEATH.denum);
+	++f.VACCINE.Vnum;
+	fclose(f_dea);
+
+	f_dea=fopen("death_counter.txt","w");
+
+	fprintf(f_dea,"%d",f.DEATH.denum);
+	fclose(f_dea);
+
+	return f.DEATH.denum;
+
+}
+
+
+void USERpassword_checker() {
+	char str[50];
+	printf("ENTER YOUR PASSWORD: ");
+	fflush(stdin);
+	gets(person.identitynumber);
+
+	idcheck();
+
+
+}
+
+
+
+int adminPASSWORD_CHECKER() {
+	char STR[50];
+	printf("ENTER YOUR PASSWORD: ");
+	fflush(stdin);
+	gets(STR);
+
+
+	FILE*adm;
+	adm=fopen("admin_password.txt","r");
+	if(adm==NULL) {
+		printf("\n file doesnot exist");
+	} else {
+		fgets(ID.password,50,adm);
+		if(strcmp(ID.password,STR)==0) {
+			return 0;
+		} else if(strcmp(ID.password,STR)!=0) {
+			return 1;
+		} else {
+			return 1;
+		}
+
+		fclose(adm);
+	}
+}
+void provincial_search() {
+	int p;
+	FILE* ps;
+	printf("Select Provice to see IDs registered\n1.Sindh\n2.Punjab\n3.Balochistan\n4.KPK\n5.Islamabad\n6.Gilgit\n7.FATA\n");
+	scanf("%d",&p);
+	switch(p) {
+		case 1:
+			ps=fopen("Sindh_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 2:
+			ps=fopen("Punjab_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 3:
+			ps=fopen("Balochistan_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 4:
+			ps=fopen("Kpk_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 5:
+			ps=fopen("Islamabad_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 6:
+			ps=fopen("Gilgit_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 7:
+			ps=fopen("FATA_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		default:
+			printf("Invalid choice\n");
+			break;
+	}
+
+}
+void gender_search() {
+	int p;
+	FILE*ps;
+	printf("Select any gender to see IDs registered\n1.Male\t2.Female\n");
+	scanf("%d",&p);
+	switch(p) {
+		case 1:
+			ps=fopen("male_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 2:
+			ps=fopen("Female_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		default:
+			printf("Invalid choice\n");
+			break;
+	}
+}
+void religion_search() {
+	int p;
+	FILE*ps;
+	printf("Select any religion to see IDs registered\n1.Islam\n2.Hinduism\n3.Christianity\n4.Ahmadis\n5.Minorities\n");
+	scanf("%d",&p);
+	switch(p) {
+		case 1:
+			ps=fopen("Muslims_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 2:
+			ps=fopen("Hindus_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 3:
+			ps=fopen("Christians_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 4:
+			ps=fopen("Ahmadis_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;
+		case 5:
+			ps=fopen("Minorities_data.txt","r");
+			while(fgets(person.cpy,100,ps)!=NULL) {
+				printf("%s",person.cpy);
+			}
+			fclose(ps);
+			break;			
+		default:
+			printf("Invalid Choice\n");
+			break;
+	}
+
+
+}
+
+
+void records() {
+	printf("\n\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\t\t\t\t\t\t\t\t   STATISTICS\n\n________________________________________________________________________________________________________________________________________________________________________\n\n\n");
+
+	FILE *f_n=NULL;
+	f_n=fopen("nic_counter.txt","r");
+
+
+	if(f_n==NULL) {
+		printf("\nNO RECORD FOR CNIC");
+	} else {
+		fscanf(f_n,"%d",&f.NIC.nnum);
+		printf("\nTOTAL CNIC CARD HOLDER ARE: %d",f.NIC.nnum);
+	}
+
+
+	FILE *f_sn=NULL;
+	f_sn=fopen("snic_counter.txt","r");
+
+
+	if(f_sn==NULL) {
+		printf("\nNO RECORD FOR SNIC");
+	} else {
+		fscanf(f_sn,"%d",&f.SNIC.snum);
+		printf("\nTOTAL SCNIC CARD HOLDER ARE: %d",f.SNIC.snum);
+	}
+
+
+	//birth
+	FILE *f_b=NULL;
+	f_b=fopen("birth_counter.txt","r");
+
+
+	if(f_b==NULL) {
+		printf("\nNO RECORD FOR BIRTH CERTIFICATE");
+	} else {
+		fscanf(f_b,"%d",&f.BIRTH.bnum);
+		printf("\nTOTAL NUMBER OF BIRTH CERTIFICATE ISSUED ARE: %d",f.BIRTH.bnum);
+	}
+
+
+	//b-form
+	FILE *f_bf=NULL;
+	f_bf=fopen("bform_counter.txt","r");
+
+
+	if(f_bf==NULL) {
+		printf("\n\nNO RECORD FOR BAY-FORM");
+	} else {
+		fscanf(f_bf,"%d",&f.BFORM.bfnum);
+		printf("\nTOTAL NUMBER OF BAY-FORM ISSUED ARE: %d",f.BFORM.bfnum);
+	}
+
+
+	//nicop
+	FILE *f_np=NULL;
+	f_np=fopen("nicop_counter.txt","r");
+
+
+	if(f_np==NULL) {
+		printf("\nNO RECORD FOR NICOP");
+	} else {
+		fscanf(f_np,"%d",&f.NICOP.Nnum);
+		printf("\nTOTAL NUMBER OF NICOP ISSUED ARE: %d",f.NICOP.Nnum);
+	}
+
+	//marriage
+	FILE *f_m=NULL;
+	f_m=fopen("marriage_counter.txt","r");
+
+
+	if(f_m==NULL) {
+		
+		printf("\nNO RECORD FOR MARRIAGES");
+	} else {
+		fscanf(f_m,"%d",&f.MARRIAGE.Mnum);
+		printf("\nTOTAL NUMBER OF MARRIAGES REPORTED ARE: %d",f.MARRIAGE.Mnum);
+	}
+
+	//divorce
+	FILE *f_d=NULL;
+	f_d=fopen("divorce_counter.txt","r");
+
+
+	if(f_d==NULL) {
+		printf("\nNO RECORD FOR DIVORCE");
+	} else {
+		fscanf(f_d,"%d",&f.DIVORCE.Dnum);
+		printf("\nTOTAL NUMBER OF DIVORCE REPORTED ARE: %d",f.DIVORCE.Dnum);
+	}
+
+	///juvenile
+	FILE *f_ju=NULL;
+	f_ju=fopen("juvenile_counter.txt","r");
+
+
+	if(f_ju==NULL) {
+		printf("\nNO RECORD FOR JUVENILE CARD HOLDER");
+	} else {
+		fscanf(f_ju,"%d",&f.JUVENILE.Jnum);
+		printf("\nTOTAL JUVENILE CARD HOLDER ARE: %d",f.JUVENILE.Jnum);
+	}
+
+	//vaccine
+
+	FILE *f_vac=NULL;
+	f_vac=fopen("vaccine_counter.txt","r");
+
+
+	if(f_vac==NULL) {
+		printf("\nNO RECORD FOR VACCINATIONS");
+	} else {
+		fscanf(f_vac,"%d",&f.VACCINE.Vnum);
+		printf("\nTOTAL NUMBER OF VACCINATED PEOPLE ARE: %d",f.VACCINE.Vnum);
+	}
+
+	//death
+
+	FILE *f_dea=NULL;
+	f_dea=fopen("death_counter.txt","r");
+
+
+	if(f_dea==NULL) {
+		printf("\nNO RECORD FOR DEATHS\n");
+	} else {
+		fscanf(f_dea,"%d",&f.DEATH.denum);
+		printf("\nTOTAL NUMBER OF PEOPLE DIED ARE: %d\n",f.DEATH.denum);
+	}
+
+	fclose(f_n);
+	fclose(f_sn);
+	fclose(f_b);
+	fclose(f_bf);
+	fclose(f_np);
+	fclose(f_m);
+	fclose(f_d);
+	fclose(f_ju);
+	fclose(f_vac);
+	fclose(f_dea);
+}
