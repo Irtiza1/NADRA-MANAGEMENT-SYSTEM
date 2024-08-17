@@ -1,4 +1,4 @@
-# NADRA-DATA-BASE-MANAGEMENT-SYSTEM
+# NADRA-MANAGEMENT-SYSTEM
 ![nadra](https://github.com/user-attachments/assets/e9dcfa13-67b0-458a-8a54-065a69d893d7)
 
 ## Overview
